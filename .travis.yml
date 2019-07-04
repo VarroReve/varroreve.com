@@ -35,4 +35,4 @@ script:
   - git status
   - git commit -m "Travis CI Auto Builder"
   - git status
-  - git push  "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
+  - git push  -f "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
