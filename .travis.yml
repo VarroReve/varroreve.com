@@ -27,12 +27,15 @@ install:
   - yarn
 
 script:
+  - git pull
   - git checkout deploy
   - hexo clean
   - hexo g
   - git status
   - git add --all
   - git commit -m "Travis CI Auto Builder"
+  - git checkout master
+  - git merge deploy
   - git status
-  - git push  "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
+  - git push  "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" master:master
   - git status
