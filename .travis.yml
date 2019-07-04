@@ -14,7 +14,7 @@ cache:
 
 env:
   global:
-    - GITHUB_REPO: https://github.com/SakyaVarro/SakyaVarro.github.io
+    - GITHUB_REPO: github.com/SakyaVarro/SakyaVarro.github.io
 
 before_install:
   - git config --global user.name "varro-travis"
