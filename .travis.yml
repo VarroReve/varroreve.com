@@ -2,6 +2,10 @@ language: node_js
 
 node_js: stable
 
+branches:
+  only:
+    - deploy
+
 cache:
   apt: true
   yarn: true
@@ -28,11 +32,7 @@ script:
   - hexo g
   - git status
   - git add --all
+  - git status
   - git commit -m "Travis CI Auto Builder"
-  - git pull
-  - git branch -a
-  - git checkout master
-  - git merge deploy
   - git status
-  - git push  "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" master:master
-  - git status
+  - git push  "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
