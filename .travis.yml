@@ -27,13 +27,14 @@ install:
   - yarn
 
 script:
-  - git pull
   - git checkout deploy
   - hexo clean
   - hexo g
   - git status
   - git add --all
   - git commit -m "Travis CI Auto Builder"
+  - git pull
+  - git branch -a
   - git checkout master
   - git merge deploy
   - git status
