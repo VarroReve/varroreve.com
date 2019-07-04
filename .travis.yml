@@ -1,0 +1,37 @@
+language: node_js
+
+node_js: stable
+
+branches:
+  only:
+    - deploy
+
+cache:
+  apt: true
+  yarn: true
+  directories:
+    - node_modules
+
+env:
+  global:
+    - GITHUB_REPO: https://github.com/SakyaVarro/SakyaVarro.github.io
+
+before_install:
+  - git config --global user.name "varro-travis"
+  - git config --global user.email "542109010@qq.com"
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - npm install -g hexo-cli
+
+install:
+  - yarn
+
+script:
+  - git checkout deploy
+  - hexo clean
+  - hexo g
+  - git status
+  - git commit -am "Travis CI Auto Builder"
+  - git status
+  - git push -f https://$GITHUB_REPO_TOKEN@$GITHUB_REPO origin deploy:master
+  - git status
