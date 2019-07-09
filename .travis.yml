@@ -9,8 +9,6 @@ branches:
     - deploy
 
 cache:
-  apt: true
-  yarn: true
   directories:
     - node_modules
 
@@ -19,27 +17,20 @@ env:
       - GITHUB_REPO: github.com/SakyaVarro/SakyaVarro.github.io
 
 before_install:
-  - git config --global user.name "varro-travis"
-  - git config --global user.email "542109010@qq.com"
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - export PATH=$HOME/.yarn/bin:$PATH
   - npm install -g hexo-cli
 
+# Start: Build Lifecycle
 install:
-  - yarn
+  - npm install
+  - npm install hexo-deployer-git --save
 
+# 执行清缓存，生成网页操作
 script:
   - hexo clean
   - hexo generate
-  - sed -i "s/gh_token/${GITHUB_REPO_TOKEN}/g" ./_config.yml
-  - hexo deploy
 
-#  - git checkout deploy
-#  - hexo clean
-#  - hexo g
-#  - git status
-#  - git add --all
-#  - git status
-#  - git commit -m "Travis CI Auto Builder"
-#  - git status
-#  - git push  -f "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
+after_script:
+  - git config --global user.name "varro-travis"
+  - git config --global user.email "542109010@qq.com"
+  - sed -i "s/gh_token/${GITHUB_REPO}/g" ./_config.yml
+  - hexo deploy
