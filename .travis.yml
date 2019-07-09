@@ -1,5 +1,7 @@
 language: node_js
 
+sudo: required
+
 node_js: stable
 
 branches:
@@ -14,7 +16,7 @@ cache:
 
 env:
   global:
-    - GITHUB_REPO: github.com/SakyaVarro/SakyaVarro.github.io
+      - GITHUB_REPO: github.com/SakyaVarro/SakyaVarro.github.io
 
 before_install:
   - git config --global user.name "varro-travis"
@@ -27,12 +29,17 @@ install:
   - yarn
 
 script:
-  - git checkout deploy
   - hexo clean
-  - hexo g
-  - git status
-  - git add --all
-  - git status
-  - git commit -m "Travis CI Auto Builder"
-  - git status
-  - git push  -f "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master
+  - hexo generate
+  - sed -i "s/gh_token/${GITHUB_REPO_TOKEN}/g" ./_config.yml
+  - hexo deploy
+
+#  - git checkout deploy
+#  - hexo clean
+#  - hexo g
+#  - git status
+#  - git add --all
+#  - git status
+#  - git commit -m "Travis CI Auto Builder"
+#  - git status
+#  - git push  -f "https://${GITHUB_REPO_TOKEN}@${GITHUB_REPO}" deploy:master

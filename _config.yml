@@ -78,4 +78,6 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  - type: git
+    repo: https://gh_token@github.com/SakyaVarro/SakyaVarro.github.io
+    branch: master
