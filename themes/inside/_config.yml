@@ -5,7 +5,7 @@
 # Appearance
 appearance:
   # Accent color
-  # accent_color: '#2a2b33'
+  accent_color: '#CB97A3'
 
   # Set background
   # background: '#f5f7fa'
@@ -54,13 +54,13 @@ appearance:
   # please feel free to explore more.
   highlight:
 
-  # Default Light by Chris Kempson (http://chriskempson.com)
-  # highlight: [
-  #   '#f8f8f8', '#e8e8e8', '#d8d8d8', '#b8b8b8',
-  #   '#585858', '#383838', '#282828', '#181818',
-  #   '#ab4642', '#dc9656', '#f7ca88', '#a1b56c',
-  #   '#86c1b9', '#7cafc2', '#ba8baf', '#a16946'
-  # ]
+    # Default Light by Chris Kempson (http://chriskempson.com)
+    highlight: [
+      '#f8f8f8', '#e8e8e8', '#d8d8d8', '#b8b8b8',
+      '#585858', '#383838', '#282828', '#181818',
+      '#ab4642', '#dc9656', '#f7ca88', '#a1b56c',
+      '#86c1b9', '#7cafc2', '#ba8baf', '#a16946'
+    ]
 
   # Harmonic16 Light by Jannik Siebert (https://github.com/janniks)
   # highlight: [
@@ -81,28 +81,28 @@ appearance:
 # Sidebar profile
 profile:
   # `email` will fallback to `hexo.config.email` if not specified
-  email:
+  email: 542109010@qq.com
 
   # Avatar URL, email address will be used for gravatar(https://en.gravatar.com) avatar if not specified.
-  # avatar:
+  avatar: https://cdn.learnku.com/uploads/avatars/26289_1547082354.jpg!/both/400x400
 
-  bio: Awesome guy.
+  bio: .--. .-.. . .- ... . -.. --- -. - --. --- .- .-- .- -.--
 
 # Sidebar menu
 menu:
   Home: /
-  # About: /about
-  # Links: /links
-  # Github: https://github.com/username
+  About: /about
+  Links: /links
+  Github: https://github.com/SakyaVarro
 
 # Sidebar social media
 # Try to sort by changing the order of the keys
 sns:
   # `email` will fallback to `profile.email` if not specified
-  email:
+  email: 542109010@qq.com
   # `feed` will fallback to `hexo.config.feed.path` if not specified
   feed:
-  github:
+  github: https://github.com/SakyaVarro
   twitter:
   facebook:
   instagram:
@@ -120,18 +120,18 @@ sns:
 
 # Sidebar footer
 footer:
-  # Default to `©year • author`, set to false to disable.
-  # copyright:
+# Default to `©year • author`, set to false to disable.
+# copyright:
 
-  # Set to false to hide Hexo link.
-  # powered: false
+# Set to false to hide Hexo link.
+# powered: false
 
-  # Set to false to hide theme link.
-  # theme: false
+# Set to false to hide theme link.
+# theme: false
 
-  # Custom text.
-  # custom: Hosted by <a target="_blank" rel="external nofollow noopener"
-  #   href="https://pages.github.com/"><b>Github Pages</b></a>
+# Custom text.
+# custom: Hosted by <a target="_blank" rel="external nofollow noopener"
+#   href="https://pages.github.com/"><b>Github Pages</b></a>
 
 
 # ---------------------------------------------------------------
@@ -140,87 +140,87 @@ footer:
 
 # Page
 page:
-  # Display Table of content, default to `true`
-  # toc: false
+# Display Table of content, default to `true`
+# toc: false
 
-  # Display reward, default to `false`
-  # reward: true
+# Display reward, default to `false`
+# reward: true
 
-  # Display copyright notice, default to `false`
-  # copyright: true
+# Display copyright notice, default to `false`
+# copyright: true
 
 
 # Post
 post:
-  # per_page: 10
+# per_page: 10
 
-  # Display Table of content, default to `true`
-  # toc: false
+# Display Table of content, default to `true`
+# toc: false
 
-  # Display reward, default to `false`
-  # reward: true
+# Display reward, default to `false`
+# reward: true
 
-  # Display copyright notice, default to `false`
-  # copyright: true
+# Display copyright notice, default to `false`
+# copyright: true
 
 # Archive
 archive:
-  # per_page: 10
+# per_page: 10
 
 # Tag
 tag:
-  # per_page: 10
+# per_page: 10
 
 # Category
 category:
-  # per_page: 10
+# per_page: 10
 
 # Search
 search:
-  # Display a quick search button in fab
-  # fab: true
+# Display a quick search button in fab
+# fab: true
 
-  # Render a standalone searh page which can be configured in sidebar menu such as `Search: /search`
-  # page: true
+# Render a standalone searh page which can be configured in sidebar menu such as `Search: /search`
+# page: true
 
-  # Local search
-  # adapter:
-  #   range:
-  #     - post
-  #     - page
-  #   per_page: 20
-  #   limit: 10000
+# Local search
+# adapter:
+#   range:
+#     - post
+#     - page
+#   per_page: 20
+#   limit: 10000
 
-  # Custom search
-  # adapter:
-  #   # Used for pagination
-  #   per_page: 10
-  #   # Optional
-  #   logo: //cdn.worldvectorlogo.com/logos/algolia.svg
-  #   request:
-  #     url: https://{APPLICATION_ID}-dsn.algolia.net/1/indexes/{INDEX}/query
-  #     method: post
-  #     # Available variables: :query, :per_page, :current
-  #     body: '{"query":":query","hitsPerPage":":per_page","page":":current"}'
-  #     headers:
-  #       X-Algolia-API-Key: {API_KEY}
-  #       X-Algolia-Application-Id: {APPLICATION_ID}
-  #       Content-Type: application/json; charset=UTF-8
-  #   keys:
-  #     # Used to retrieve result list
-  #     data: hits
-  #     # Used to retrieve current page number
-  #     current: page
-  #     # Used to retrieve total page number
-  #     total: nbPage
-  #     # Used to retrieve total hits number
-  #     hits: nbHits
-  #     # Used to retrieve cost time
-  #     time: processingTimeMS
-  #     # Used to retrieve title from per hit
-  #     title: _snippetResult.title.value
-  #     # Used to retrieve content from per hit
-  #     content: _snippetResult.content.value
+# Custom search
+# adapter:
+#   # Used for pagination
+#   per_page: 10
+#   # Optional
+#   logo: //cdn.worldvectorlogo.com/logos/algolia.svg
+#   request:
+#     url: https://{APPLICATION_ID}-dsn.algolia.net/1/indexes/{INDEX}/query
+#     method: post
+#     # Available variables: :query, :per_page, :current
+#     body: '{"query":":query","hitsPerPage":":per_page","page":":current"}'
+#     headers:
+#       X-Algolia-API-Key: {API_KEY}
+#       X-Algolia-Application-Id: {APPLICATION_ID}
+#       Content-Type: application/json; charset=UTF-8
+#   keys:
+#     # Used to retrieve result list
+#     data: hits
+#     # Used to retrieve current page number
+#     current: page
+#     # Used to retrieve total page number
+#     total: nbPage
+#     # Used to retrieve total hits number
+#     hits: nbHits
+#     # Used to retrieve cost time
+#     time: processingTimeMS
+#     # Used to retrieve title from per hit
+#     title: _snippetResult.title.value
+#     # Used to retrieve content from per hit
+#     content: _snippetResult.content.value
 
 
 # ---------------------------------------------------------------
@@ -231,71 +231,71 @@ search:
 # `![cat](images/cat.gif)` will convert to
 # <img src="https://cdn.example.com/images/cat.gif?m=webp&q=80" alt="cat">
 assets:
-  # prefix: 'https://cdn.example.com'
-  # suffix: '?m=webp&q=80'
+# prefix: 'https://cdn.example.com'
+# suffix: '?m=webp&q=80'
 
 # Table of content, enabled by default, set to `false` to disable.
 toc:
-  # The depth of toc, default to `3`, maximum to `4`.
-  # depth: 3
+# The depth of toc, default to `3`, maximum to `4`.
+# depth: 3
 
-  # Showing index before title, eg. 1.1 title, default to `true`
-  # index: true
+# Showing index before title, eg. 1.1 title, default to `true`
+# index: true
 
 # Reward
 reward:
-  # Text which shows at the top.
-  # text: Buy me a cup of coffee ☕.
+# Text which shows at the top.
+# text: Buy me a cup of coffee ☕.
 
-  # Payment Methods
-  # qrcode, url and text must be set at least one
-  # wechat, alipay, paypal and bitcoin has built-in icon and color themes,
-  # use `name` to apply
-  # methods:
-  #   - name: paypal
-  #     qrcode: paypal.jpg
-  #     url: https://paypal.me/imelmore
-  #     text: This is a paypal payment link
+# Payment Methods
+# qrcode, url and text must be set at least one
+# wechat, alipay, paypal and bitcoin has built-in icon and color themes,
+# use `name` to apply
+# methods:
+#   - name: paypal
+#     qrcode: paypal.jpg
+#     url: https://paypal.me/imelmore
+#     text: This is a paypal payment link
 
 # Copyright notice
 # It is possible to use front matter `copyright` to override this setting.
 copyright:
-  # Display author, default to `true`
-  # author: true
+# Display author, default to `true`
+# author: true
 
-  # Display link, default to `true`
-  # link: false
+# Display link, default to `true`
+# link: false
 
-  # license: Attribution-NonCommercial-NoDerivatives 4.0 International
-  #   (<a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\"
-  #   rel=\"external nofollow noopener\" target=\"_blank\">CC BY-NC-ND 4.0</a>)
+# license: Attribution-NonCommercial-NoDerivatives 4.0 International
+#   (<a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\"
+#   rel=\"external nofollow noopener\" target=\"_blank\">CC BY-NC-ND 4.0</a>)
 
-  # Display published date, default to `false`
-  # published: false
+# Display published date, default to `false`
+# published: false
 
-  # Display updated date, default to `false`
-  # updated: false
+# Display updated date, default to `false`
+# updated: false
 
-  # Custom text, override above settings
-  # custom: my copyright
+# Custom text, override above settings
+# custom: my copyright
 
 # Comments
 # Built-in support Disqus (https://disqus.com) and LiveRe (https://livere.com),
 # for other comment system, see plugins
 comments:
-  # disqus:
-  #   shortname: disqus_shortname
-  #   # Or you can set disqus script URL directly
-  #   script: //disqus_shortname.disqus.com/embed.js
-  #   # Autoload, default to `true`, set to `false` to display a button
-  #   autoload: false
+# disqus:
+#   shortname: disqus_shortname
+#   # Or you can set disqus script URL directly
+#   script: //disqus_shortname.disqus.com/embed.js
+#   # Autoload, default to `true`, set to `false` to display a button
+#   autoload: false
 
-  # livere:
-  #   uid: livere_uid
-  #   # LiveRe script, default to `https://cdn-city.livere.com/js/embed.dist.js`
-  #   script:
-  #   # Autoload, default to `true`, set to `false` to display a button
-  #   autoload: false
+# livere:
+#   uid: livere_uid
+#   # LiveRe script, default to `https://cdn-city.livere.com/js/embed.dist.js`
+#   script:
+#   # Autoload, default to `true`, set to `false` to display a button
+#   autoload: false
 
 
 # ---------------------------------------------------------------
@@ -321,58 +321,58 @@ favicon:
 
 # SEO
 seo:
-  # Render structured-data in <head>, default to `false`
-  # structured_data: true
+# Render structured-data in <head>, default to `false`
+# structured_data: true
 
 # PWA
 pwa:
-  # Workbox (https://developers.google.com/web/tools/workbox/) is a JavaScript
-  # libraries for adding offline support to web apps,
-  # disabled by default, remove the hash to enable
-  # workbox:
-  #   # Workbox cdn, uses google by default, below is an example of using alicdn
-  #   cdn: https://g.alicdn.com/kg/workbox/3.3.0/workbox-sw.js
-  #   module_path_prefix: https://g.alicdn.com/kg/workbox/3.3.0/
-  #   # Expire time in hour, 4 by default, set to 0 to be permanent,
-  #   # caches will be forcibly deleted the next time the site is updated.
-  #   expire: 4
-  #   # The worker script name, `sw.js` by default
-  #   name: sw.js
-  #   # Custom rules
-  #   rules:
-  #     - name: jsdelivr
-  #       strategy: staleWhileRevalidate
-  #       regex: https://cdn\\.jsdelivr\\.net
-  #     - name: gtm
-  #       strategy: staleWhileRevalidate
-  #       regex: https://www\\.googletagmanager\\.com\?id=.*
-  #     - name: gravatar
-  #       strategy: staleWhileRevalidate
-  #       regex: https://www\\.gravatar\\.com
-  #     - name: theme
-  #       strategy: staleWhileRevalidate
-  #       regex: /.*\\.(?:js|css|woff2|png|jpg|gif)$
-  #     - name: cdn
-  #       strategy: staleWhileRevalidate
-  #       regex: https://cdn\\.yourdomain\\.com
-  #     - name: json
-  #       strategy: cacheFirst
-  #       regex: your_data_prefix/.*\\.json
+# Workbox (https://developers.google.com/web/tools/workbox/) is a JavaScript
+# libraries for adding offline support to web apps,
+# disabled by default, remove the hash to enable
+# workbox:
+#   # Workbox cdn, uses google by default, below is an example of using alicdn
+#   cdn: https://g.alicdn.com/kg/workbox/3.3.0/workbox-sw.js
+#   module_path_prefix: https://g.alicdn.com/kg/workbox/3.3.0/
+#   # Expire time in hour, 4 by default, set to 0 to be permanent,
+#   # caches will be forcibly deleted the next time the site is updated.
+#   expire: 4
+#   # The worker script name, `sw.js` by default
+#   name: sw.js
+#   # Custom rules
+#   rules:
+#     - name: jsdelivr
+#       strategy: staleWhileRevalidate
+#       regex: https://cdn\\.jsdelivr\\.net
+#     - name: gtm
+#       strategy: staleWhileRevalidate
+#       regex: https://www\\.googletagmanager\\.com\?id=.*
+#     - name: gravatar
+#       strategy: staleWhileRevalidate
+#       regex: https://www\\.gravatar\\.com
+#     - name: theme
+#       strategy: staleWhileRevalidate
+#       regex: /.*\\.(?:js|css|woff2|png|jpg|gif)$
+#     - name: cdn
+#       strategy: staleWhileRevalidate
+#       regex: https://cdn\\.yourdomain\\.com
+#     - name: json
+#       strategy: cacheFirst
+#       regex: your_data_prefix/.*\\.json
 
-  # manifest.json
-  # manifest:
-  #   short_name:
-  #   name:
-  #   start_url: /
-  #   theme_color: '#2a2b33'
-  #   background_color: '#2a2b33'
-  #   icons:
-  #     - src: icon-194x194.png
-  #       sizes: 194x194 512x512
-  #       type: image/png
-  #     - src: icon-144x144.png
-  #       sizes: 144x144
-  #       type: image/png
+# manifest.json
+# manifest:
+#   short_name:
+#   name:
+#   start_url: /
+#   theme_color: '#2a2b33'
+#   background_color: '#2a2b33'
+#   icons:
+#     - src: icon-194x194.png
+#       sizes: 194x194 512x512
+#       type: image/png
+#     - src: icon-144x144.png
+#       sizes: 144x144
+#       type: image/png
 
 # Plugins
 # Inject html snippet to a specified position, Or global inject scripts/styles.
