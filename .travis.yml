@@ -40,5 +40,5 @@ script:
 
 after_script:
   - ssh deployer@sakyavarro.cn -o stricthostkeychecking=no -i /tmp/deploy_rsa 'cd /var/www
-    && rm -rf hexo && git clone git@github.com:SakyaVarro/sakyavarro.github.io.git hexo && chmod -R 777 hexo && echo done && exit'
+    && rm -rf hexo && git clone https://github.com/SakyaVarro/sakyavarro.github.io.git hexo && chmod -R 777 hexo && echo done && exit'
 
