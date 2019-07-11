@@ -5,7 +5,7 @@
 # Appearance
 appearance:
   # Accent color
-  accent_color: '#CB97A3'
+  # accent_color: '#2a2b33'
 
   # Set background
   # background: '#f5f7fa'
@@ -24,7 +24,7 @@ appearance:
   #   - '#2a2b33'
 
   # Maximum width of content
-  content_width: 800
+  # content_width: 640
 
   # Fonts
   font:
@@ -91,28 +91,31 @@ appearance:
 
 # Sidebar profile
 profile:
-  # `email` will fallback to `hexo.config.email` if not specified
-  email: 542109010@qq.com
+  # `email` is used for gravatar(https://en.gravatar.com),
+  # fallback to `hexo.config.email` if not specified
+  email:
 
-  # Avatar URL, email address will be used for gravatar(https://en.gravatar.com) avatar if not specified.
-  avatar: https://cdn.learnku.com/uploads/avatars/26289_1547082354.jpg!/both/400x400
+  # You can set Avatar URL directly
+  # avatar:
 
-  bio: .--. .-.. . .- ... . -.. --- -. - --. --- .- .-- .- -.--
+  bio: Awesome guy.
 
-# Sidebar menu
+# Sidebar navigation links
 menu:
   Home: /
-  About: /about
-  Links: /links
+  # About: /about
+  # Links: /links
+  # Github: https://github.com/username
 
 # Social media URL
 # Try to sort by changing the order of the keys
 sns:
   # `email` will fallback to `profile.email` if not specified
-  email: 542109010@qq.com
-  # `feed` will fallback to `hexo.config.feed.path` if not specified
+  email:
+  # If you use hexo-generator-feed, `sns.feed` can be left blank
+  # and the theme will try to get `hexo.config.feed.path`.
   feed:
-  github: https://github.com/SakyaVarro
+  github:
   twitter:
   facebook:
   instagram:
@@ -134,10 +137,10 @@ footer:
   # copyright: '&copy; 2019 • <a href="">John Doe</a>'
 
   # Set to false to hide Hexo link.
-  powered: false
+  # powered: false
 
   # Set to false to hide theme link.
-  theme: false
+  # theme: false
 
   # Custom text.
   # custom: Hosted by <a target="_blank" rel="external nofollow noopener"
@@ -166,67 +169,67 @@ post:
 
   # The following settings are the same as the page
   # toc: false
-    reward: true
-    copyright: true
+  # reward: true
+  # copyright: true
 
 # Archive
 archive:
-# per_page: 10
+  # per_page: 10
 
 # Tag
 tag:
-# per_page: 10
+  # per_page: 10
 
 # Category
 category:
-# per_page: 10
+  # per_page: 10
 
 # Search
 search:
-# Display a quick search button in fab
-  fab: true
+  # Display a quick search button in fab
+  # fab: true
 
-# Render a standalone searh page which can be configured in sidebar menu such as `Search: /search`
-  page: true
+  # Render a standalone searh page which can be configured in sidebar menu such as `Search: /search`
+  # page: true
 
-# Local search
-  adapter:
-   range:
-      - post
-      - page
-   per_page: 20
-#   limit: 10000
+  # Local search
+  # adapter:
+  #   range:
+  #     - post
+  #     - page
+  #   per_page: 20
+  #   limit: 10000
 
-# Custom search
-# adapter:
-#   # Used for pagination
-#   per_page: 10
-#   # Optional
-#   logo: //cdn.worldvectorlogo.com/logos/algolia.svg
-#   request:
-#     url: https://{APPLICATION_ID}-dsn.algolia.net/1/indexes/{INDEX}/query
-#     method: post
-#     # Available variables: :query, :per_page, :current
-#     body: '{"query":":query","hitsPerPage":":per_page","page":":current"}'
-#     headers:
-#       X-Algolia-API-Key: {API_KEY}
-#       X-Algolia-Application-Id: {APPLICATION_ID}
-#       Content-Type: application/json; charset=UTF-8
-#   keys:
-#     # Used to retrieve result list
-#     data: hits
-#     # Used to retrieve current page number
-#     current: page
-#     # Used to retrieve total page number
-#     total: nbPage
-#     # Used to retrieve total hits number
-#     hits: nbHits
-#     # Used to retrieve cost time
-#     time: processingTimeMS
-#     # Used to retrieve title from per hit
-#     title: _snippetResult.title.value
-#     # Used to retrieve content from per hit
-#     content: _snippetResult.content.value
+  # Custom search
+  # adapter:
+  #   # Used for pagination
+  #   per_page: 10
+  #   # Optional
+  #   logo: //cdn.worldvectorlogo.com/logos/algolia.svg
+  #   request:
+  #     url: https://{APPLICATION_ID}-dsn.algolia.net/1/indexes/{INDEX}/query
+  #     method: post
+  #     # Available variables: :query, :per_page, :current
+  #     body: '{"query":":query","hitsPerPage":":per_page","page":":current"}'
+  #     headers:
+  #       X-Algolia-API-Key: {API_KEY}
+  #       X-Algolia-Application-Id: {APPLICATION_ID}
+  #       Content-Type: application/json; charset=UTF-8
+  #   keys:
+  #     # Used to retrieve result list
+  #     data: hits
+  #     # Used to retrieve current page number
+  #     current: page
+  #     # Used to retrieve total page number
+  #     total: nbPage
+  #     # Used to retrieve total hits number
+  #     hits: nbHits
+  #     # Used to retrieve cost time
+  #     time: processingTimeMS
+  #     # Used to retrieve title from per hit
+  #     title: _snippetResult.title.value
+  #     # Used to retrieve content from per hit
+  #     content: _snippetResult.content.value
 
 
 # ---------------------------------------------------------------

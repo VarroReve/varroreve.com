@@ -1,8 +1,11 @@
 ---
 title: '[强迫症福利] 使用 PHPStorm 对齐数组的键值对'
 date: 2019-07-11 10:13:18
-tags: phpstorm
-category: phpstorm
+tags:
+- phpstorm
+category: 
+- phpstorm
+thumbnail: https://s2.ax1x.com/2019/07/11/Z2USn1.jpg
 ---
 在 PHPStorm 中定义数组时往往会写成下面这样：
 ```php
