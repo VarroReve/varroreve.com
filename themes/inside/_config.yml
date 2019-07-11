@@ -20,8 +20,8 @@ appearance:
   #   - '#2a2b33'
 
   # You can also set only the background when the sidebar is open.
-  # background:
-  #   - '#2a2b33'
+  background:
+    - '#CB97A3'
 
   # Maximum width of content
   content_width: 800
@@ -97,7 +97,7 @@ profile:
   # Avatar URL, email address will be used for gravatar(https://en.gravatar.com) avatar if not specified.
   avatar: https://cdn.learnku.com/uploads/avatars/26289_1547082354.jpg!/both/400x400
 
-  bio: .--. .-.. . .- ... . -.. --- -. - --. --- .- .-- .- -.--
+  bio: Bientot je serai de retour, E keltia
 
 # Sidebar menu
 menu:
