@@ -20,7 +20,7 @@ appearance:
   #   - '#2a2b33'
 
   # Maximum width of content
-  # content_width: 640
+  content_width: 1000
 
   # Fonts
   font:
@@ -55,12 +55,12 @@ appearance:
   highlight:
 
     # Default Light by Chris Kempson (http://chriskempson.com)
-    highlight: [
-      '#f8f8f8', '#e8e8e8', '#d8d8d8', '#b8b8b8',
-      '#585858', '#383838', '#282828', '#181818',
-      '#ab4642', '#dc9656', '#f7ca88', '#a1b56c',
-      '#86c1b9', '#7cafc2', '#ba8baf', '#a16946'
-    ]
+#    highlight: [
+#      '#f8f8f8', '#e8e8e8', '#d8d8d8', '#b8b8b8',
+#      '#585858', '#383838', '#282828', '#181818',
+#      '#ab4642', '#dc9656', '#f7ca88', '#a1b56c',
+#      '#86c1b9', '#7cafc2', '#ba8baf', '#a16946'
+#    ]
 
   # Harmonic16 Light by Jannik Siebert (https://github.com/janniks)
   # highlight: [
@@ -71,12 +71,12 @@ appearance:
   # ]
 
   # Tomorrow Night by Chris Kempson (http://chriskempson.com)
-  # highlight: [
-  #   '#1d1f21', '#282a2e', '#373b41', '#969896',
-  #   '#b4b7b4', '#c5c8c6', '#e0e0e0', '#ffffff',
-  #   '#cc6666', '#de935f', '#f0c674', '#b5bd68',
-  #   '#8abeb7', '#81a2be', '#b294bb', '#a3685a'
-  # ]
+     highlight: [
+       '#1d1f21', '#282a2e', '#373b41', '#969896',
+       '#b4b7b4', '#c5c8c6', '#e0e0e0', '#ffffff',
+       '#cc6666', '#de935f', '#f0c674', '#b5bd68',
+       '#8abeb7', '#81a2be', '#b294bb', '#a3685a'
+     ]
 
 # Sidebar profile
 profile:
@@ -93,7 +93,6 @@ menu:
   Home: /
   About: /about
   Links: /links
-  Github: https://github.com/SakyaVarro
 
 # Sidebar social media
 # Try to sort by changing the order of the keys
@@ -124,10 +123,10 @@ footer:
 # copyright:
 
 # Set to false to hide Hexo link.
-# powered: false
+powered: false
 
 # Set to false to hide theme link.
-# theme: false
+theme: false
 
 # Custom text.
 # custom: Hosted by <a target="_blank" rel="external nofollow noopener"
@@ -147,12 +146,12 @@ page:
 # reward: true
 
 # Display copyright notice, default to `false`
-# copyright: true
+  copyright: true
 
 
 # Post
 post:
-# per_page: 10
+per_page: 20
 
 # Display Table of content, default to `true`
 # toc: false
@@ -178,17 +177,17 @@ category:
 # Search
 search:
 # Display a quick search button in fab
-# fab: true
+  fab: true
 
 # Render a standalone searh page which can be configured in sidebar menu such as `Search: /search`
-# page: true
+  page: true
 
 # Local search
-# adapter:
-#   range:
-#     - post
-#     - page
-#   per_page: 20
+  adapter:
+   range:
+      - post
+      - page
+   per_page: 20
 #   limit: 10000
 
 # Custom search
