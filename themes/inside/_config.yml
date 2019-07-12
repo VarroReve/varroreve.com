@@ -123,10 +123,10 @@ sns:
   hangouts:
   linkedin:
   pinterest:
-  soundcloud:
-  myspace:
+  soundcloud: https://music.163.com/#/user/home?id=131658542
+  myspace: https://learnku.com/users/26289
   weibo:
-  qq:
+  qq: 542109010
 
 # Sidebar footer copyright info
 footer:
@@ -166,8 +166,9 @@ post:
 
   # The following settings are the same as the page
   # toc: false
-    reward: true
-    copyright: true
+  reward: true
+
+  copyright: true
 
 # Archive
 archive:
@@ -289,12 +290,12 @@ copyright:
 # Built-in support Disqus (https://disqus.com) and LiveRe (https://livere.com),
 # for other comment system, see plugins
 comments:
-  # disqus:
-  #   shortname: disqus_shortname
-  #   # Or you can set disqus script URL directly
-  #   script: //disqus_shortname.disqus.com/embed.js
-  #   # Autoload, default to `true`, set to `false` to display a button
-  #   autoload: false
+  disqus:
+    shortname: varro
+    # Or you can set disqus script URL directly
+#    script: //disqus_shortname.disqus.com/embed.js
+    # Autoload, default to `true`, set to `false` to display a button
+    autoload: false
 
   # livere:
   #   uid: livere_uid
@@ -320,7 +321,7 @@ data_prefix:
 data_dir:
 
 # Favicon, default to `favicon.ico`
-favicon:
+favicon: favicon.ico
 
 # Google analytics
 # ga: UA-00000000-0
@@ -328,7 +329,7 @@ favicon:
 # SEO
 seo:
   # Render structured-data in <head>, default to `false`
-  # structured_data: true
+  structured_data: true
 
 # PWA
 pwa:
