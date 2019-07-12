@@ -4,3 +4,5 @@ node_modules/
 .idea/
 public/
 /db.json
+deploy_rsa
+deploy_rsa.pub
