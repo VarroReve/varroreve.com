@@ -10,7 +10,6 @@ category:
 - phpstorm
 - laravel
 thumbnail: https://s2.ax1x.com/2019/07/11/Z2UDCF.jpg
-reward: true
 ---
 ## 介绍
 大家可能已经接触过 [Laracasts](https://laracasts.com/)，它是 Laravel 框架的作者 Taylor Otwell 创办的视频教学网站，涵盖了 Laravel、Vue、IDE、Testing 等前沿技术。由于是国外网站、部分视频付费、英语解说，Laracasts 系列视频教程在国内资源很少，所以自己开始翻译这个视频系列。若喜欢该系列视频，可去该网站订阅后下载该系列视频，**支持正版**。
