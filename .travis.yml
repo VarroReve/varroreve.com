@@ -50,9 +50,9 @@ after_script:
   - ls -l qshell.zip
   - unzip qshell.zip
   - mv qshell_linux_x64 qshell
-  - docker run --rm -v $(pwd):/converted/ arachnysdocker/athenapdf athenapdf --margins=none
+  - docker run --rm -v $(pwd):/converted/ arachnysdocker/athenapdf athenapdf
     http://www.sakyavarro.cn/resume resume.pdf
   - "./qshell account $QINIU_AK $QINIU_SK varro_test"
   - "./qshell fput varro resume.pdf resume.pdf -w"
-  - "echo 'http://www.sakyavarro.cn/resume' > refresh_list.text"
+  - "echo 'http://cdn.sakyavarro.cn/resume.pdf' > refresh_list.text"
   - "./qshell cdnrefresh -i refresh_list.text"
