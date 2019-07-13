@@ -6,335 +6,147 @@ testing testing 123
 
 [click this to download PDF](http://cdn.sakyavarro.cn/resume.pdf)
 
-# Clean Code PHP
+# 欢迎使用马克飞象
 
-## Table of Contents
+@(示例笔记本)[马克飞象|帮助|Markdown]
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-     * [Use meaningful and pronounceable variable names](#use-meaningful-and-pronounceable-variable-names)
-     * [Use the same vocabulary for the same type of variable](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [Use searchable names (part 1)](#use-searchable-names-part-1)
-     * [Use searchable names (part 2)](#use-searchable-names-part-2)
-     * [Use explanatory variables](#use-explanatory-variables)
-     * [Avoid nesting too deeply and return early (part 1)](#avoid-nesting-too-deeply-and-return-early-part-1)
-     * [Avoid nesting too deeply and return early (part 2)](#avoid-nesting-too-deeply-and-return-early-part-2)
-     * [Avoid Mental Mapping](#avoid-mental-mapping)
-     * [Don't add unneeded context](#dont-add-unneeded-context)
-     * [Use default arguments instead of short circuiting or conditionals](#use-default-arguments-instead-of-short-circuiting-or-conditionals)
-  3. [Comparison](#comparison)
-     * [Use identical comparison](#use-identical-comparison)
-  4. [Functions](#functions)
-     * [Function arguments (2 or fewer ideally)](#function-arguments-2-or-fewer-ideally)
-     * [Functions should do one thing](#functions-should-do-one-thing)
-     * [Function names should say what they do](#function-names-should-say-what-they-do)
-     * [Functions should only be one level of abstraction](#functions-should-only-be-one-level-of-abstraction)
-     * [Don't use flags as function parameters](#dont-use-flags-as-function-parameters)
-     * [Avoid Side Effects](#avoid-side-effects)
-     * [Don't write to global functions](#dont-write-to-global-functions)
-     * [Don't use a Singleton pattern](#dont-use-a-singleton-pattern)
-     * [Encapsulate conditionals](#encapsulate-conditionals)
-     * [Avoid negative conditionals](#avoid-negative-conditionals)
-     * [Avoid conditionals](#avoid-conditionals)
-     * [Avoid type-checking (part 1)](#avoid-type-checking-part-1)
-     * [Avoid type-checking (part 2)](#avoid-type-checking-part-2)
-     * [Remove dead code](#remove-dead-code)
-  5. [Objects and Data Structures](#objects-and-data-structures)
-     * [Use object encapsulation](#use-object-encapsulation)
-     * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
-  6. [Classes](#classes)
-     * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
-     * [Avoid fluent interfaces](#avoid-fluent-interfaces)
-     * [Prefer `final` classes](#prefer-final-classes)
-  7. [SOLID](#solid)
-     * [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
-     * [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
-     * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
-     * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
-     * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  8. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  9. [Translations](#translations)
+**马克飞象**是一款专为印象笔记（Evernote）打造的Markdown编辑器，通过精心的设计与技术实现，配合印象笔记强大的存储和同步功能，带来前所未有的书写体验。特点概述：
+ 
+- **功能丰富** ：支持高亮代码块、*LaTeX* 公式、流程图，本地图片以及附件上传，甚至截图粘贴，工作学习好帮手；
+- **得心应手** ：简洁高效的编辑器，提供[桌面客户端][1]以及[离线Chrome App][2]，支持移动端 Web；
+- **深度整合** ：支持选择笔记本和添加标签，支持从印象笔记跳转编辑，轻松管理。
 
-## Introduction
+-------------------
 
-Software engineering principles, from Robert C. Martin's book
-[*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+[TOC]
 
-Not every principle herein has to be strictly followed, and even fewer will be universally 
-agreed upon. These are guidelines and nothing more, but they are ones codified over many 
-years of collective experience by the authors of *Clean Code*.
+## Markdown简介
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript).
+> Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— [维基百科](https://zh.wikipedia.org/wiki/Markdown)
 
-Although many developers still use PHP 5, most of the examples in this article only work with PHP 7.1+.
+正如您在阅读的这份文档，它使用简单的符号标识不同的标题，将某些文字标记为**粗体**或者*斜体*，创建一个[链接](http://www.example.com)或一个脚注[^demo]。下面列举了几个高级功能，更多语法请按`Ctrl + /`查看帮助。 
 
-## Variables
+### 代码块
+``` python
+@requires_authorization
+def somefunc(param1='', param2=0):
+    '''A docstring'''
+    if param1 > param2: # interesting
+        print 'Greater'
+    return (param2 - param1 + 1) or None
+class SomeClass:
+    pass
+>>> message = '''interpreter
+... prompt'''
+```
+### LaTeX 公式
 
-### Use meaningful and pronounceable variable names
+可以创建行内公式，例如 $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$。或者块级公式：
 
-**Bad:**
+$$	x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 
-```php
-$ymdstr = $moment->format('y-m-d');
+### 表格
+| Item      |    Value | Qty  |
+| :-------- | --------:| :--: |
+| Computer  | 1600 USD |  5   |
+| Phone     |   12 USD |  12  |
+| Pipe      |    1 USD | 234  |
+
+### 流程图
+```flow
+st=>start: Start
+e=>end
+op=>operation: My Operation
+cond=>condition: Yes or No?
+
+st->op->cond
+cond(yes)->e
+cond(no)->op
 ```
 
-**Good:**
+以及时序图:
 
-```php
-$currentDate = $moment->format('y-m-d');
+```sequence
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
 ```
 
-**[⬆ back to top](#table-of-contents)**
+> **提示：**想了解更多，请查看**流程图**[语法][3]以及**时序图**[语法][4]。
 
-### Use the same vocabulary for the same type of variable
+### 复选框
 
-**Bad:**
+使用 `- [ ]` 和 `- [x]` 语法可以创建复选框，实现 todo-list 等功能。例如：
 
-```php
-getUserInfo();
-getUserData();
-getUserRecord();
-getUserProfile();
-```
+- [x] 已完成事项
+- [ ] 待办事项1
+- [ ] 待办事项2
 
-**Good:**
+> **注意：**目前支持尚不完全，在印象笔记中勾选复选框是无效、不能同步的，所以必须在**马克飞象**中修改 Markdown 原文才可生效。下个版本将会全面支持。
 
-```php
-getUser();
-```
 
-**[⬆ back to top](#table-of-contents)**
+## 印象笔记相关
 
-### Use searchable names (part 1)
+### 笔记本和标签
+**马克飞象**增加了`@(笔记本)[标签A|标签B]`语法, 以选择笔记本和添加标签。 **绑定账号后**， 输入`(`自动会出现笔记本列表，请从中选择。
 
-We will read more code than we will ever write. It's important that the code we do write is 
-readable and searchable. By *not* naming variables that end up being meaningful for 
-understanding our program, we hurt our readers.
-Make your names searchable.
+### 笔记标题
+**马克飞象**会自动使用文档内出现的第一个标题作为笔记标题。例如本文，就是第一行的 `欢迎使用马克飞象`。
 
-**Bad:**
+### 快捷编辑
+保存在印象笔记中的笔记，右上角会有一个红色的编辑按钮，点击后会回到**马克飞象**中打开并编辑该笔记。
+>**注意：**目前用户在印象笔记中单方面做的任何修改，马克飞象是无法自动感知和更新的。所以请务必回到马克飞象编辑。
 
-```php
-// What the heck is 448 for?
-$result = $serializer->serialize($data, 448);
-```
+### 数据同步
+**马克飞象**通过**将Markdown原文以隐藏内容保存在笔记中**的精妙设计，实现了对Markdown的存储和再次编辑。既解决了其他产品只是单向导出HTML的单薄，又规避了服务端存储Markdown带来的隐私安全问题。这样，服务端仅作为对印象笔记 API调用和数据转换之用。
 
-**Good:**
+ >**隐私声明：用户所有的笔记数据，均保存在印象笔记中。马克飞象不存储用户的任何笔记数据。**
 
-```php
-$json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-```
+### 离线存储
+**马克飞象**使用浏览器离线存储将内容实时保存在本地，不必担心网络断掉或浏览器崩溃。为了节省空间和避免冲突，已同步至印象笔记并且不再修改的笔记将删除部分本地缓存，不过依然可以随时通过`文档管理`打开。
 
-### Use searchable names (part 2)
+> **注意：**虽然浏览器存储大部分时候都比较可靠，但印象笔记作为专业云存储，更值得信赖。以防万一，**请务必经常及时同步到印象笔记**。
 
-**Bad:**
+## 编辑器相关
+### 设置
+右侧系统菜单（快捷键`Ctrl + M`）的`设置`中，提供了界面字体、字号、自定义CSS、vim/emacs 键盘模式等高级选项。
 
-```php
-class User
-{
-    // What the heck is 7 for?
-    public $access = 7;
-}
+### 快捷键
 
-// What the heck is 4 for?
-if ($user->access & 4) {
-    // ...
-}
+帮助    `Ctrl + /`
+同步文档    `Ctrl + S`
+创建文档    `Ctrl + Alt + N`
+最大化编辑器    `Ctrl + Enter`
+预览文档 `Ctrl + Alt + Enter`
+文档管理    `Ctrl + O`
+系统菜单    `Ctrl + M` 
 
-// What's going on here?
-$user->access ^= 2;
-```
+加粗    `Ctrl + B`
+插入图片    `Ctrl + G`
+插入链接    `Ctrl + L`
+提升标题    `Ctrl + H`
 
-**Good:**
+## 关于收费
 
-```php
-class User
-{
-    const ACCESS_READ = 1;
-    const ACCESS_CREATE = 2;
-    const ACCESS_UPDATE = 4;
-    const ACCESS_DELETE = 8;
+**马克飞象**为新用户提供 10 天的试用期，试用期过后需要[续费](maxiang.info/vip.html)才能继续使用。未购买或者未及时续费，将不能同步新的笔记。之前保存过的笔记依然可以编辑。
 
-    // User as default can read, create and update something
-    public $access = self::ACCESS_READ | self::ACCESS_CREATE | self::ACCESS_UPDATE;
-}
 
-if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
-}
+## 反馈与建议
+- 微博：[@马克飞象](http://weibo.com/u/2788354117)，[@GGock](http://weibo.com/ggock "开发者个人账号")
+- 邮箱：<hustgock@gmail.com>
 
-// Deny access rights to create something
-$user->access ^= User::ACCESS_CREATE;
-```
+---------
+感谢阅读这份帮助文档。请点击右上角，绑定印象笔记账号，开启全新的记录与分享体验吧。
 
-**[⬆ back to top](#table-of-contents)**
 
-### Use explanatory variables
 
-**Bad:**
 
-```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,]+,\s*(.+?)\s*(\d{5})$/';
-preg_match($cityZipCodeRegex, $address, $matches);
+[^demo]: 这是一个示例脚注。请查阅 [MultiMarkdown 文档](https://github.com/fletcher/MultiMarkdown/wiki/MultiMarkdown-Syntax-Guide#footnotes) 关于脚注的说明。 **限制：** 印象笔记的笔记内容使用 [ENML][5] 格式，基于 HTML，但是不支持某些标签和属性，例如id，这就导致`脚注`和`TOC`无法正常点击。
 
-saveCityZipCode($matches[1], $matches[2]);
-```
 
-**Not bad:**
+  [1]: http://maxiang.info/client_zh
+  [2]: https://chrome.google.com/webstore/detail/kidnkfckhbdkfgbicccmdggmpgogehop
+  [3]: http://adrai.github.io/flowchart.js/
+  [4]: http://bramp.github.io/js-sequence-diagrams/
+  [5]: https://dev.yinxiang.com/doc/articles/enml.php
 
-It's better, but we are still heavily dependent on regex.
-
-```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,]+,\s*(.+?)\s*(\d{5})$/';
-preg_match($cityZipCodeRegex, $address, $matches);
-
-[, $city, $zipCode] = $matches;
-saveCityZipCode($city, $zipCode);
-```
-
-**Good:**
-
-Decrease dependence on regex by naming subpatterns.
-
-```php
-$address = 'One Infinite Loop, Cupertino 95014';
-$cityZipCodeRegex = '/^[^,]+,\s*(?<city>.+?)\s*(?<zipCode>\d{5})$/';
-preg_match($cityZipCodeRegex, $address, $matches);
-
-saveCityZipCode($matches['city'], $matches['zipCode']);
-```
-
-**[⬆ back to top](#table-of-contents)**
-
-### Avoid nesting too deeply and return early (part 1)
-
-Too many if-else statements can make your code hard to follow. Explicit is better
-than implicit.
-
-**Bad:**
-
-```php
-function isShopOpen($day): bool
-{
-    if ($day) {
-        if (is_string($day)) {
-            $day = strtolower($day);
-            if ($day === 'friday') {
-                return true;
-            } elseif ($day === 'saturday') {
-                return true;
-            } elseif ($day === 'sunday') {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
-```
-
-**Good:**
-
-```php
-function isShopOpen(string $day): bool
-{
-    if (empty($day)) {
-        return false;
-    }
-
-    $openingDays = [
-        'friday', 'saturday', 'sunday'
-    ];
-
-    return in_array(strtolower($day), $openingDays, true);
-}
-```
-
-**[⬆ back to top](#table-of-contents)**
-
-### Avoid nesting too deeply and return early (part 2)
-
-**Bad:**
-
-```php
-function fibonacci(int $n)
-{
-    if ($n < 50) {
-        if ($n !== 0) {
-            if ($n !== 1) {
-                return fibonacci($n - 1) + fibonacci($n - 2);
-            } else {
-                return 1;
-            }
-        } else {
-            return 0;
-        }
-    } else {
-        return 'Not supported';
-    }
-}
-```
-
-**Good:**
-
-```php
-function fibonacci(int $n): int
-{
-    if ($n === 0 || $n === 1) {
-        return $n;
-    }
-
-    if ($n >= 50) {
-        throw new \Exception('Not supported');
-    }
-
-    return fibonacci($n - 1) + fibonacci($n - 2);
-}
-```
-
-**[⬆ back to top](#table-of-contents)**
-
-### Avoid Mental Mapping
-
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
-
-**Bad:**
-
-```php
-$l = ['Austin', 'New York', 'San Francisco'];
-
-for ($i = 0; $i < count($l); $i++) {
-    $li = $l[$i];
-    doStuff();
-    doSomeOtherStuff();
-    // ...
-    // ...
-    // ...
-    // Wait, what is `$li` for again?
-    dispatch($li);
-}
-```
-
-**Good:**
-
-```php
-$locations = ['Austin', 'New York', 'San Francisco'];
-
-foreach ($locations as $location) {
-    doStuff();
-    doSomeOtherStuff();
-    // ...
-    // ...
-    // ...
-    dispatch($location);
-}
-```
