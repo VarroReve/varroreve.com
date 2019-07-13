@@ -51,5 +51,5 @@ after_script:
     http://www.sakyavarro.cn/resume resume.pdf
   - "./qshell account $QINIU_AK $QINIU_SK varro_test"
   - "./qshell fput varro resume.pdf resume.pdf -w"
-  - "echo 'http://cdn.sakyavarro.cn/resume.pdf' > refresh_list.text"
+  - "echo 'http://www.sakyavarro.cn/resume' > refresh_list.text"
   - "./qshell cdnrefresh -i refresh_list.text"
