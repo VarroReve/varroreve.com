@@ -42,7 +42,6 @@ after_success:
     && rm -rf hexo && git clone https://github.com/SakyaVarro/sakyavarro.github.io.git hexo && chmod -R 777 hexo && echo done && exit'
 
 after_script:
-  - exit
   - docker pull arachnysdocker/athenapdf
   - curl -v -o qshell.zip http://devtools.qiniu.com/qshell-v2.3.5.zip
   - ls -l qshell.zip
