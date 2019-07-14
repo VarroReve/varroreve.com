@@ -9,8 +9,8 @@ category:
 - laravel
 thumbnail: https://s2.ax1x.com/2019/07/12/ZfUEsH.jpg
 ---
-## 介绍
 使用 Laravel 时，我们常常会用到拓展包 [Laravel IDE helper](https://github.com/barryvdh/laravel-ide-helper) 来帮助本地开发。而 [Laravel plugin](https://github.com/Haehnchen/idea-php-laravel-plugin) 是一款 PHPStorm 的插件，将这两者配合使用，可以较大的提升开发效率。
+<!-- more -->
 
 ## Laravel IDE helper
 > 这个扩展包能让 IDE (PHPStorm, Sublime) 实现自动补全、代码智能提示和代码跟踪等功能，在 [Laravel 扩展排行榜](https://learnku.com/laravel/projects/filter/laravel-library) 上长期居于前五。

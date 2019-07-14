@@ -20,8 +20,8 @@ appearance:
   #   - '#2a2b33'
 
   # You can also set only the background when the sidebar is open.
-  background:
-    - '#CB97A3'
+  "background":
+    - "#CB97A3 linear-gradient(to bottom,#CB97A3 0%,#E87A90 100%)"
 
   # Maximum width of content
   content_width: 800
@@ -167,9 +167,9 @@ post:
 
   # The following settings are the same as the page
   # toc: false
-  reward: true
+  # reward: true
 
-  copyright: true
+  # copyright: true
 
 # Archive
 archive:

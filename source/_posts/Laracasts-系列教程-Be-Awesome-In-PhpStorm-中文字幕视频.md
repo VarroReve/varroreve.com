@@ -1,5 +1,5 @@
 ---
-title: Laracasts 系列教程 - Be Awesome In PhpStorm 中文字幕
+title: Laracasts 系列教程 - Be Awesome In PhpStorm 中文字幕视频
 date: 2019-07-11 09:56:37
 tags:
 - laravel
@@ -10,10 +10,11 @@ category:
 - phpstorm
 - laravel
 thumbnail: https://s2.ax1x.com/2019/07/14/Z57S3t.md.jpg
+top: 1
 ---
-## 介绍
-大家可能已经接触过 [Laracasts](https://laracasts.com/)，它是 Laravel 框架的作者 Taylor Otwell 创办的视频教学网站，涵盖了 Laravel、Vue、IDE、Testing 等前沿技术。由于是国外网站、部分视频付费、英语解说，Laracasts 系列视频教程在国内资源很少，所以自己开始翻译这个视频系列。若喜欢该系列视频，可去该网站订阅后下载该系列视频，**支持正版**。
 
+大家可能已经接触过 [Laracasts](https://laracasts.com/)，它是 Laravel 框架的作者 Taylor Otwell 创办的视频教学网站，涵盖了 Laravel、Vue、IDE、Testing 等前沿技术。由于是国外网站、部分视频付费、英语解说，Laracasts 系列视频教程在国内资源很少，所以自己开始翻译这个视频系列。若喜欢该系列视频，可去该网站订阅后下载该系列视频，**支持正版**。
+<!-- more -->
 目前只翻译了  [Be Awesome In PhpStorm](https://laracasts.com/series/how-to-be-awesome-in-phpstorm)  的前几集，不过我每周都会更新（龟速）。没有加上超链接的章节代表尚未翻译，完成后会翻译该系列的其他课程。
 
 
