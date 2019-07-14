@@ -5,7 +5,7 @@ tags:
 - phpstorm
 category: 
 - phpstorm
-thumbnail: https://s2.ax1x.com/2019/07/11/Z2USn1.jpg
+thumbnail: https://s2.ax1x.com/2019/07/14/Z5o5y8.md.jpg
 ---
 在 PHPStorm 中定义数组时往往会写成下面这样：
 ```php

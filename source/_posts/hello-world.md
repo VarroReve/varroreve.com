@@ -1,6 +1,6 @@
 ---
 title: Hello World
-thumbnail: https://s2.ax1x.com/2019/07/11/Z2U83Q.jpg
+thumbnail: https://s2.ax1x.com/2019/07/14/Z5T7jK.md.jpg
 ---
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
