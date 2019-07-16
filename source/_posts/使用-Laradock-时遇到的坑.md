@@ -9,7 +9,7 @@ category:
 - laravel
 ---
 
-**Laradock 的坑太多了，把遇到的一一总结下。**
+> Laradock 很好用，不过坑也很多，把遇到的一一总结下
 <!-- more -->
 
 

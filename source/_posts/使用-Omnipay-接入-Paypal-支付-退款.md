@@ -7,7 +7,7 @@ tags:
 categories: pay
 thumbnail: https://s2.ax1x.com/2019/07/14/Z5TZ6K.md.jpg
 ---
-Omnipay 的文档实在是太少了。
+> Omnipay 的文档实在是太少了，需要看源码才能知道如何使用
 <!-- more -->
 
 ## 安装
@@ -88,9 +88,4 @@ if ($response->isSuccessful()) {
     $data = $response->getData();
     echo "Gateway refund response data == " . print_r($data, true) . "\n";
 }
-```
-
-
-```php
-
 ```
