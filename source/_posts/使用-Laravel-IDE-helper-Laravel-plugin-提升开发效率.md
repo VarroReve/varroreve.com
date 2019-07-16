@@ -4,9 +4,7 @@ date: 2019-07-12 18:56:23
 tags:
 - phpstorm
 - laravel
-category: 
-- phpstorm
-- laravel
+category: phpstorm
 thumbnail: https://s2.ax1x.com/2019/07/12/ZfUEsH.jpg
 ---
 使用 Laravel 时，我们常常会用到拓展包 [Laravel IDE helper](https://github.com/barryvdh/laravel-ide-helper) 来帮助本地开发。而 [Laravel plugin](https://github.com/Haehnchen/idea-php-laravel-plugin) 是一款 PHPStorm 的插件，将这两者配合使用，可以较大的提升开发效率。

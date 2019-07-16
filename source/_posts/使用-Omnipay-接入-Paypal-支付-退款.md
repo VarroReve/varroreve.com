@@ -4,8 +4,7 @@ date: 2019-07-11 20:44:16
 tags:
 - paypal
 - omnipay
-categories:
-- pay
+categories: pay
 thumbnail: https://s2.ax1x.com/2019/07/14/Z5TZ6K.md.jpg
 ---
 Omnipay 的文档实在是太少了。

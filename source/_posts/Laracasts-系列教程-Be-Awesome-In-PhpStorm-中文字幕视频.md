@@ -6,9 +6,7 @@ tags:
 - laracasts
 - phpstorm
 - php
-category: 
-- phpstorm
-- laravel
+category: laravel
 thumbnail: https://s2.ax1x.com/2019/07/14/Z57S3t.md.jpg
 top: 1
 ---
