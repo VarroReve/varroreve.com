@@ -5,6 +5,7 @@ tags:
 - laravel
 - laradock
 - docker
+- 坑
 category:
 - laravel
 ---
@@ -61,3 +62,6 @@ docker-compose build --no-cache workspace php-fpm
 ```bash
 docker-compose build --no-cache workspace php-fpm
 ```
+
+### 同一个 laradock 下的项目间相互 ping 不通
+
