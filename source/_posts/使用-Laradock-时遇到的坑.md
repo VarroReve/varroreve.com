@@ -63,5 +63,45 @@ docker-compose build --no-cache workspace php-fpm
 docker-compose build --no-cache workspace php-fpm
 ```
 
-### 同一个 laradock 下的项目间相互 ping 不通
+### Failed to connect to xxxx.com port 80: Connection refused
 
+在 laradock 的容器中使用 `curl` 访问 laradock 下的某个项目`：
+
+```bash
+$ curl hexo.test
+
+Failed to connect to hexo.test port 80: Connection refused
+``` 
+
+或者从 laradock 中的一个项目去访问 laradock 下的另一个项目都会报错，这是因为没有把 laradock 中项目的域名加入到容器的 hosts 文件中。
+
+首先登录到 laradock 的 workspace 容器中（其他容器均可），查看 hosts 文件：
+
+```bash
+$ vim /etc/hosts
+
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+10.0.75.1       dockerhost
+172.22.0.5      bbf98d23a213
+```
+
+接着打开 laradock 根目录下的 `docker-compose.yml` 文件，定位到 `extra_hosts` ，在下面 `"dockerhost:${DOCKER_HOST_IP}"` 把自己的域名加上：
+
+```yml
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+        - "hexo.test:172.22.0.1"         // 这个 172.22.0.1 是将 `vim /etc/hosts` 中 `172.22.0.5` 的 5 换成 1 而来的
+```
+
+`docker-compose.yml` 中许多个 `extra_hosts`，一般在 workspace 和 php-fpm 容器下把自己域名加上即可。
+
+最后执行重新 build 容器：
+
+```bash
+$ docker-compose up -d --force-recreate --build php-fpm workspace
+```
