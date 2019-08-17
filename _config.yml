@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Varro's blog
-subtitle:
-description:
-keywords:
+title: varro
+subtitle: varro's blog
+description: varro's blog
+keywords: varro php laravel phpstorm blog
 author: varro
 language: zh-CN
 timezone:
