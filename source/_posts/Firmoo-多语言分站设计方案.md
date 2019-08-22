@@ -222,9 +222,9 @@ show variables like "%time_zone%";
 
 意思是：
 
- `user_id = 1111111` 的用户来自站点 1
+`user_id = 1111111` 的用户来自站点 1
 
- `user_id = 2222222` 的用户来自站点 2
+`user_id = 2222222` 的用户来自站点 2
 
 `addon_id = 2` 的配件属于站点 1
 
