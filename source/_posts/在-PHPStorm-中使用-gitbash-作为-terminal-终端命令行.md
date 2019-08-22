@@ -18,7 +18,7 @@ tags: PhpStorm
 
 ![](https://s2.ax1x.com/2019/07/25/eZJ7F0.png)
 
-另外 `git bash` 可能会出现中文乱码的问题，需要在 Git 的安装目录下找到 `\etc\bash.bashrc` 文件，在末尾添加：
+另外 `git bash` 可能会出现中文乱码的问题，需要在 Git 的安装目录下找到 `./etc/bash.bashrc` 文件，在末尾添加：
 
 ```bash
 $ vim ./etc/bash.bashrc
