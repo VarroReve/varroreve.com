@@ -92,3 +92,15 @@ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 # 5Te8Y4drgCRfCx8ugdwuEX8KFC6k2EUu
 ```
 
+### Bandit Level 12 → Level 13
+
+> Level Goal
+>
+> The password for the next level is stored in the file **data.txt**, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir. For example: mkdir /tmp/myname123. Then copy the datafile using cp, and rename it using mv (read the manpages!)
+
+这一关的 data.txt 是一个被反复压缩过的十六进制文件，需要先使用 `xxd` 反向 dump，再用 `file` 命令查看文件是被什么工具压缩的，最后一层一层把它解压出来。
+
+```
+# 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
+```
+
