@@ -104,3 +104,6 @@ cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 # 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 ```
 
+
+
+ssh -i ./sshkey.private bandit14@localhost
