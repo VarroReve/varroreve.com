@@ -239,7 +239,7 @@ search:
 # `![cat](images/cat.gif)` will convert to
 # <img src="https://cdn.example.com/images/cat.gif?m=webp&q=80" alt="cat">
 assets:
- prefix: 'http://cdn.sakyavarro.cn/'
+  # prefix: 'https://cdn.example.com'
   # suffix: '?m=webp&q=80'
 
 # Table of content, enabled by default, set to `false` to disable.
@@ -311,7 +311,7 @@ comments:
 # ---------------------------------------------------------------
 
 # URL prefix for theme statics
-static_prefix:
+static_prefix: 'http://cdn.sakyavarro.cn/'
 
 # URL prefix for json data
 # If your json file is put in a cdn server,
