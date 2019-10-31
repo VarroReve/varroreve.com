@@ -239,7 +239,7 @@ search:
 # `![cat](images/cat.gif)` will convert to
 # <img src="https://cdn.example.com/images/cat.gif?m=webp&q=80" alt="cat">
 assets:
-  # prefix: 'https://cdn.example.com'
+ prefix: 'http://cdn.sakyavarro.cn/'
   # suffix: '?m=webp&q=80'
 
 # Table of content, enabled by default, set to `false` to disable.
