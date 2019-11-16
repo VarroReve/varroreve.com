@@ -26,3 +26,5 @@ tags:
 然后 CLion 会自动帮你填上所有你该填的东西，点击 OK ，等调试的小虫子变绿就可以了。
 
 ![img](https:////upload-images.jianshu.io/upload_images/13625730-9f5aa1e8408cef27.png?imageMogr2/auto-orient/strip|imageView2/2/w/781/format/webp)
+
+### 下载 GDB
