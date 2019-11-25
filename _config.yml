@@ -5,15 +5,15 @@
 # Site
 title: varro
 subtitle: varro's blog
-description: varro's blog
-keywords: varro php laravel phpstorm blog
+description: varro's blog varro 的博客
+keywords: varro blog php laravel phpstorm varro 的博客
 author: varro
 language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.sakyavarro.cn
+url: http://sakyavarro.cn
 root: /
 permalink: post/:title/
 permalink_defaults:

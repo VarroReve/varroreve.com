@@ -1,7 +1,7 @@
 ---
 title: oh-my-zsh 安装及插件使用
 date: 2019-11-23 09:26:14
-tags:
+tags: ohmyzsh
 ---
 
 > Your terminal nerver felt **this** good before. 

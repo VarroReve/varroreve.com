@@ -1,7 +1,7 @@
 ---
 title: MySQL 慢日志分析
 date: 2019-11-25 09:39:01
-tags: MySQL
+tags: MySQL MySQL慢日志
 thumbnail: https://s2.ax1x.com/2019/11/25/Mj3QPg.jpg
 ---
 

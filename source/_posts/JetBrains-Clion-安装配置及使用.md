@@ -1,7 +1,7 @@
 ---
 title: JetBrains Clion 安装配置及使用
 date: 2019-11-15 16:50:23
-tags:
+tags: clion gdb
 ---
 
 ### 下载安装 MinGW

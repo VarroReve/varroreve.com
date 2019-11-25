@@ -1,7 +1,7 @@
 ---
 title: GitHub 被墙后的解决办法
 date: 2019-11-25 15:43:16
-tags: v2ray
+tags: github速度慢 github被墙 v2ray
 thumbnail: https://s2.ax1x.com/2019/11/25/Mj3lGQ.jpg
 ---
 
