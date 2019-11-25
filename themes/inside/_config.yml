@@ -163,7 +163,7 @@ page:
 
 # Post
 post:
-  # per_page: 10
+  per_page: 20
 
   # The following settings are the same as the page
   # toc: false
@@ -173,15 +173,15 @@ post:
 
 # Archive
 archive:
-# per_page: 10
+# per_page: 20
 
 # Tag
 tag:
-# per_page: 10
+# per_page: 20
 
 # Category
 category:
-# per_page: 10
+# per_page: 20
 
 # Search
 search:

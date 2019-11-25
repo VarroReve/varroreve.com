@@ -2,6 +2,7 @@
 title: Linux 下的解密游戏 Over The Wire - Bandit
 date: 2019-09-11 10:17:38
 tags: linux
+thumbnail: https://s2.ax1x.com/2019/11/25/MXzeYQ.jpg
 ---
 
 ### Bandit Level 6 → Level 7
