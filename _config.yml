@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: varro
-subtitle: varro's blog
-description: varro's blog varro 的博客
-keywords: varro blog php laravel phpstorm varro 的博客
-author: varro
+title: varro' blog
+subtitle: Varro Reve's blog
+description: Varoo Reve 是一位 Laravel 狂热者和 PHP 开发者.Varro Reve is a Laravel enthousiast and PHP developer.
+keywords: varro blog php laravel phpstorm 博客
+author: Varro Reve
 language: zh-CN
 timezone:
 
