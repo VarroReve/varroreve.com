@@ -113,7 +113,7 @@ sns:
   email: 542109010@qq.com
   # `feed` will fallback to `hexo.config.feed.path` if not specified
   feed:
-  github: https://github.com/SakyaVarro
+  github: https://github.com/VarroReve
   twitter:
   facebook:
   instagram:
