@@ -8,6 +8,7 @@ tags:
 - Laravel
 - Php Inspections
 - 提高代码质量
+category: Code Review
 ---
 
 > [Php Inspections](https://github.com/kalessil/phpinspectionsea) 是一款 PhpStorm 的开源插件，用作静态分析
