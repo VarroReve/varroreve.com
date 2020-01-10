@@ -305,7 +305,7 @@ comments:
 # ---------------------------------------------------------------
 
 # URL prefix for theme statics
-static_prefix: 'http://cdn.sakyavarro.cn'
+#static_prefix: 'http://cdn.sakyavarro.cn'
 
 # URL prefix for json data
 # If your json file is put in a cdn server,
