@@ -1,13 +1,7 @@
 'use strict';
 
 describe('post', function () {
-  const filterPath = require.resolve('../../../lib/filter/post');
-  const post = {
-    call(ctx, arg) {
-      delete require.cache[filterPath]
-      return require(filterPath).call(ctx, arg)
-    }
-  }
+  const post = require('../../../lib/filter/post');
 
   beforeEach(function () {
     this.ctx = {
@@ -45,15 +39,13 @@ describe('post', function () {
       layout: 'post',
       excerpt: '',
       content: '',
-      slug: 'test',
-      path: 'post/test'
+      slug: 'test'
     }
     post.call(this.ctx, data);
     expect(data.link).toBe('post/test');
     expect(data.plink).toBe('//example.com/post/test/');
 
     data.layout = 'page';
-    data.path = 'test'
     data.source = 'test/index.md';
     post.call(this.ctx, data);
     expect(data.link).toBe('test');
@@ -113,7 +105,6 @@ describe('post', function () {
       layout: 'post',
       excerpt: '',
       slug: 'test',
-      path: 'post/test',
       content: '<h2 id="Title"><a href="#Title" class="headerlink" title="Title"></a>Title</h2>'
     };
 
@@ -176,76 +167,18 @@ describe('post', function () {
       source: 'test/index.md',
       content: '<img src="img/sample.jpg">',
     };
-    const { ctx } = this;
 
-    post.call(ctx, data);
-    expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg?q=80')
-    expect(data.content).toBe('<img src="https://sample.com/img/sample.jpg?q=80" class="article-img">');
-
-    // suffix only
-    data.thumbnail = 'img/sample.jpg'
-    data.content = '<img src="img/sample.jpg">'
-    ctx.theme.config.assets = { suffix: '?q=80' }
-    post.call(ctx, data);
-    expect(data.thumbnail).toBe('img/sample.jpg?q=80')
-    expect(data.content).toBe('<img src="img/sample.jpg?q=80" class="article-img">');
-
-    // prefix only
-    data.thumbnail = 'img/sample.jpg'
-    data.content = '<img src="img/sample.jpg">'
-    ctx.theme.config.assets = { prefix: 'https://sample.com' }
-    post.call(ctx, data);
-    expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg')
-    expect(data.content).toBe('<img src="https://sample.com/img/sample.jpg" class="article-img">');
-
-    data.layout = 'page'
-    data.thumbnail = 'img/sample.jpg';
-    post.call(ctx, data);
-    expect(data.thumbnail).toBe('img/sample.jpg')
-  });
-
-  it('post_asset_folder', function () {
-    const data = {
-      layout: 'post',
-      thumbnail: 'sample.jpg',
-      excerpt: '',
-      source: 'test/index.md',
-      content: '<img src="sample.jpg">',
-      path: 'post/test'
-    };
-    const { ctx } = this;
-
-    // post_asset_folder off, theme.assets off
-    delete ctx.theme.config.assets
-    post.call(ctx, data)
-    expect(data.thumbnail).toBe('sample.jpg')
-    expect(data.content).toBe('<img src="sample.jpg" class="article-img">')
-
-    // post_asset_folder on, theme.assets off
-    data.thumbnail = 'sample.jpg'
-    data.content = '<img src="sample.jpg">'
-    ctx.config.post_asset_folder = true
-    post.call(ctx, data)
-    expect(data.thumbnail).toBe('post/test/sample.jpg')
-    expect(data.content).toBe('<img src="post/test/sample.jpg" class="article-img">')
-
-    // post_asset_folder off, theme.assets on
-    data.thumbnail = 'img/sample.jpg'
-    data.content = '<img src="img/sample.jpg">'
-    ctx.config.post_asset_folder = false
-    ctx.theme.config.assets = { prefix: 'https://sample.com', suffix: '?q=80' }
-    post.call(ctx, data)
+    post.call(this.ctx, data);
     expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg?q=80')
     expect(data.content).toBe('<img src="https://sample.com/img/sample.jpg?q=80" class="article-img">')
 
-    // post_asset_folder on, theme.assets on
-    data.thumbnail = 'img/sample.jpg'
-    data.content = '<img src="img/sample.jpg">'
-    ctx.config.post_asset_folder = true
-    post.call(ctx, data)
-    expect(data.thumbnail).toBe('https://sample.com/post/test/img/sample.jpg?q=80')
-    expect(data.content).toBe('<img src="https://sample.com/post/test/img/sample.jpg?q=80" class="article-img">')
-  })
+    data.layout = 'page'
+    post.call(this.ctx, data);
+
+    data.thumbnail = 'img/sample.jpg';
+    post.call(this.ctx, data);
+    expect(data.thumbnail).toBe('img/sample.jpg')
+  });
 
   it('escape with data:image', function () {
     const data = {
@@ -255,7 +188,7 @@ describe('post', function () {
       content: '<p>inline<img src="data:image"></p>',
     };
 
-    post.call(this.ctx, data);
+    post.call(this.ctx, { ...data });
 
     expect(data.thumbnail).toBe('data:image')
     expect(data.content).toBe('<p>inline<img src="data:image"></p>')

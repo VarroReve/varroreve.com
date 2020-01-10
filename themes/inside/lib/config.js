@@ -7,6 +7,7 @@ const utils = require('./utils');
 const pkg = require('../package.json');
 const configSchema = require('./configSchema.json');
 const resources = require('../source/_resources.json');
+const external_regex = /^(\w+:)?\/\/\w+\.\w+/;
 
 module.exports = function (hexo) {
   hexo.on('generateBefore', function () {
@@ -23,11 +24,13 @@ module.exports = function (hexo) {
       $description: site.description
     });
     const urlFn = result.static_prefix ?
-      a => utils.isExternal(a) ? a : `${result.static_prefix}/${a}` :
+      a => external_regex.test(a) ? a : `${result.static_prefix}/${a}` :
       urlFor.bind(this);
 
     // override default language
     site.language = utils.localeId(site.language);
+    // override default permalink
+    site.permalink = 'post/:title/';
 
     const __ = this.theme.i18n.__(site.language);
 
@@ -40,16 +43,6 @@ module.exports = function (hexo) {
       delete disqus.shortname;
     }
 
-    // convert menu to array
-    if (result.menu) {
-      result.menu = Object.keys(result.menu).map(k => {
-        const item = [k, result.menu[k]];
-        if (utils.isExternal(item[1])) item.push(1);
-        return item;
-      })
-    }
-
-    // sns
     if (result.sns) {
       const sns = [];
       if (result.sns.email !== undefined) result.sns.email = 'mailto:' + (result.sns.email || email);
@@ -64,7 +57,8 @@ module.exports = function (hexo) {
       // plugins comes first to ensure that their libs is ready when executing dynamic code.
       ...(result.plugins || []),
       ...resources.styles,
-      ...resources.scripts
+      ...resources.scripts,
+      resources.locales[site.language]
     ];
 
     if (theme.appearance.font && theme.appearance.font.url)
@@ -123,12 +117,10 @@ module.exports = function (hexo) {
     }
 
     // override boolean value to html string
-    if (result.footer.powered) result.footer.powered = __('footer.powered', '<a href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a>')
-    if (result.footer.theme) result.footer.theme = __('footer.theme') + ' - <a href="https://github.com/ikeq/hexo-theme-inside" target="_blank" rel="external nofollow noopener">Inside</a>'
+    if (result.footer.powered) result.footer.powered = __('footer.powered', '<a href="https://hexo.io" target="_blank" rel="external nofollow">Hexo</a>')
+    if (result.footer.theme) result.footer.theme = __('footer.theme') + ' - <a href="https://github.com/ikeq/hexo-theme-inside" target="_blank" rel="external nofollow">Inside</a>'
 
     result.runtime = {
-      // root selector
-      selector: resources.root,
       hash: utils.md5([
         ...hexo.locals.getters.pages().sort('-date').toArray(),
         ...hexo.locals.getters.posts().sort('-date').toArray()

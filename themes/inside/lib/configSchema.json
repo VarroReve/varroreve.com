@@ -25,17 +25,13 @@
       "type": "object",
       "properties": {
         "accent_color": { "$ref": "#/definitions/color" },
-        "foreground_color": { "$ref": "#/definitions/color" },
-        "border_color": { "$ref": "#/definitions/color" },
-        "background": { "type": "string" },
-        "sidebar_background": { "type": "string" },
-        "card_background": { "type": "string" },
-        "content_width": {
+        "background": {
           "oneOf": [
-            { "type": "number" },
-            { "type": "string" }
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" }, "minItems": 1, "maxItems": 2 }
           ]
         },
+        "content_width": { "type": "number", "minimum": 320 },
         "font": {
           "type": "object",
           "properties": {
@@ -45,8 +41,7 @@
             "label": { "type": "string" },
             "heading": { "type": "string" },
             "code": { "type": "string" },
-            "base": { "type": "string" },
-            "print": { "type": "string" }
+            "base": { "type": "string" }
           },
           "additionalProperties": false
         },
@@ -54,6 +49,20 @@
           "type": "array",
           "items": { "$ref": "#/definitions/color" },
           "minItems": 15
+        },
+        "mode": {
+          "oneOf": [
+            { "enum": ["dark"] },
+            {
+              "type": "array",
+              "items": [
+                { "$ref": "#/definitions/color" },
+                { "type": "string" },
+                { "$ref": "#/definitions/color" }
+              ],
+              "minItems": 3
+            }
+          ]
         }
       },
       "required": ["accent_color"],
@@ -136,8 +145,7 @@
               "name": { "type": "string" },
               "text": { "type": "string" },
               "qrcode": { "type": "string" },
-              "url": { "type": "string" },
-              "color": { "$ref": "#/definitions/color" }
+              "url": { "type": "string" }
             },
             "required": ["name"],
             "minProperties": 2,
@@ -156,7 +164,7 @@
         "license": {
           "type": "string",
           "contentMediaType": "text/html" ,
-          "default": "Attribution-NonCommercial-NoDerivatives 4.0 International (<a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\" rel=\"external nofollow noopener\" target=\"_blank\">CC BY-NC-ND 4.0</a>)"
+          "default": "Attribution-NonCommercial-NoDerivatives 4.0 International (<a href=\"https://creativecommons.org/licenses/by-nc-sa/4.0/\" rel=\"external nofollow\" target=\"_blank\">CC BY-NC-ND 4.0</a>)"
         },
         "published": { "type": "boolean" },
         "updated": { "type": "boolean" },
@@ -310,7 +318,7 @@
     "plugins": {
       "type": "array",
       "definitions": {
-        "position": { "enum": ["sidebar", "avatar", "post", "page", "comments"] }
+        "position": { "enum": ["sidebar", "post", "page", "comments"] }
       },
       "items": {
         "oneOf": [
