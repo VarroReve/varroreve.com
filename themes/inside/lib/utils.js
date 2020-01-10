@@ -1,17 +1,17 @@
 const crypto = require('crypto');
 
-exports.type = function (o) {
-  return Object.prototype.toString.call(o).split(' ')[1].slice(0, -1).toLowerCase()
+exports.type = function (value) {
+  return Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
 }
 
-exports.isObject = function (obj) {
-  return exports.type(obj) === 'object';
+exports.isObject = function (value) {
+  return exports.type(value) === 'object';
 }
 
-exports.isEmptyObject = function (obj) {
-  if (!exports.isObject(obj)) return false;
+exports.isEmptyObject = function (value) {
+  if (!exports.isObject(value)) return false;
 
-  for (const key in obj) return false;
+  for (const key in value) return false;
   return true;
 }
 
@@ -30,7 +30,7 @@ exports.pick = function (obj, keys) {
     keys.forEach(key => {
       o.hasOwnProperty(key) &&
         // delete property with value `false` to save some bytes
-        o[key] !== false &&
+        (o[key] !== false && o[key] !== undefined && o[key] !== null) &&
         (ret[key] = o[key]);
 
     });
@@ -59,21 +59,26 @@ exports.base64 = function (str) {
 }
 
 /**
- * Align page path to support sub page
+ * Remove `/*.html`
  *
- * source/page/index.md => /root/page
- * source/page/v2.md => /root/page/v2
- *
- * @param   {string}  source    page.source
- * @param   {boolean} keepIndex
+ * @param {string} url
+ * @param {boolean} keepIndex keep `index` for `index.html`, used for post_asset_folder
  * @returns {string}
  */
-exports.getPagePath = function (source, keepIndex) {
-  let [paths, md] = source.split(/\/(?=[^\/]*md$)/);
+exports.trimHtml = function (url, keepIndex) {
+  if (!url) return '';
+  url = url.split('/')
 
-  if (md !== 'index.md') paths += '/' + md.substring(0, md.indexOf('.md'));
-  else if (keepIndex) paths += '/index';
-  return paths;
+  const last = url.pop()
+  if (last) {
+    if (last === 'index.html') {
+      if (keepIndex) url.push('index')
+    } else {
+      url.push(last.split('.')[0])
+    }
+  }
+
+  return url.join('/');
 }
 
 exports.Pagination = class {
@@ -168,7 +173,7 @@ exports.parseToc = function (content, depth) {
     /^<h4.*id="([^"]*)"[^>]*>(.*)<a /,
     /^<h5.*id="([^"]*)"[^>]*>(.*)<a /,
   ].slice(0, depth + 1),
-    headings = content.match(/<(h[12345]).*id="([^"]*)".*>(.*)<a.*<\/\1>/g);
+    headings = content.match(/<(h[12345]).*?id="([^"]*)".*?>(.*?)<a.*?<\/\1>/g);
 
   if (!headings) return [];
 
@@ -563,7 +568,7 @@ exports.localeId = function (ids, toOld) {
 }
 
 /**
- * Transform with babel, and minify with uglify
+ * Transform with babel, and minify with terser
  *
  * @param {string} code
  * @returns {string}
@@ -579,15 +584,15 @@ exports.parseJs = jsParser();
 exports.minifyHtml = htmlMinifier();
 
 function jsParser() {
-  let babel, uglify;
+  let babel, terser;
   try {
-    uglify = require('uglify-js');
+    terser = require('terser');
     babel = require('babel-core');
     require('babel-preset-env');
   } catch (e) { return i => i || '' }
 
   const esSafe = code => babel.transform(code, { presets: [['env', { 'modules': false }]] });
-  const minify = uglify.minify;
+  const minify = terser.minify;
 
   return function (code) {
     if (!code || typeof code !== 'string') return '';
@@ -707,4 +712,40 @@ exports.tag = function (vTag) {
   if (tag === 'link') return `<link${attrString}>`;
 
   return exports.minifyHtml(`<${tag + attrString}>${code || ''}</${tag}>`);
+}
+
+/**
+ * Parse css background, only support hex color
+ * #fff url => { color: '#fff', image: url }
+ * @param {string} value
+ * @return {{color?: string; image?: string}}
+ */
+exports.parseBackground = function (value) {
+  if (!value) return {}
+  const color_hex_regex = /^#(?:[0-9a-fA-F]{3}){1,2}$/
+  const part = value.split(/\s+/)
+  const ret = {}
+
+  // color at start
+  if (color_hex_regex.test(part[0]))
+    return {
+      color: part[0],
+      image: part.slice(1).join(' ')
+    }
+
+  // color at end
+  const lastIndex = part.length - 1
+  if (part[lastIndex] && color_hex_regex.test(part[lastIndex]))
+    return {
+      color: part.pop(),
+      image: part.join(' ')
+    }
+
+  return {
+    image: value
+  }
+}
+
+exports.isExternal = function (link) {
+  return /^(\w+:)?\/\//.test(link);
 }
