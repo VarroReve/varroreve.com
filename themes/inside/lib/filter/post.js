@@ -1,13 +1,8 @@
 const cheerio = require('cheerio');
 const { date } = require('hexo/lib/plugins/helper/date');
-const { snippet, parseToc, isObject, isEmptyObject, localeId, pick, trimHtml } = require('../utils');
 const bounded = '<div class="article-bounded"></div>';
 const table = '<div class="article-table"></div>';
-const date_formats = [
-  'll', // Sep 4, 1986
-  'L', // 09/04/1986
-  'MM-DD' // 06-17
-];
+const { snippet, getPagePath, parseToc, isObject, isEmptyObject, localeId, pick } = require('../utils');
 
 // cache
 let hasComments, hasReward, hasToc, copyright, dateHelper, uriReplacer;
@@ -29,32 +24,20 @@ module.exports = function (data) {
     copyright = theme.copyright;
   if (dateHelper === undefined)
     dateHelper = date.bind({ page: { lang: localeId(config.language, true) }, config })
-  if (uriReplacer === undefined) {
-    uriReplacer = (() => {
-      let assetsFn = src => src;
-      if (theme.assets) {
-        const prefix = theme.assets.prefix ? theme.assets.prefix + '/' : ''
-        const suffix = theme.assets.suffix || ''
-        assetsFn = src => prefix + `${src}${suffix}`.replace(/\/{2,}/g, '/')
-      }
-
-      return (src, assetPath) => {
-        assetPath = assetPath ? assetPath + '/' : ''
-
-        // skip both external and absolute path
-        return /^(\/\/?|http|data\:image)/.test(src) ? src : assetsFn(`${assetPath}${src}`);
-      }
-    })();
-  }
-
-  // pre format date for i18n
-  data.date_formatted = date_formats.reduce((ret, format) => {
-    ret[format] = dateHelper(data.date, format)
-    return ret
-  }, {})
+  if (uriReplacer === undefined)
+    uriReplacer = theme.assets ?
+      (() => {
+        const { prefix, suffix } = theme.assets;
+        return s => /^(http|data\:image)/.test(s) ?
+          s :
+          s.replace(/^\/*(.*[^\/])\/*$/, prefix + '/$1' + suffix)
+      })() :
+      config.post_asset_folder ?
+        (s, p) => /\//.test(s) ? s : `/${p}/${s}` :
+        s => s;
 
   // relative link
-  data.link = trimHtml(data.path);
+  data.link = isPage ? getPagePath(data.source) : `post/${data.slug}`;
   // permalink link
   data.plink = `${config.url}/${data.link}/`;
   // type
@@ -63,10 +46,8 @@ module.exports = function (data) {
   // comments
   data.comments = hasComments && data.comments !== false;
 
-  // asset path (for post_asset_folder)
-  const assetPath = config.post_asset_folder
-    ? (isPage ? trimHtml(data.path, true) : data.link)
-    : undefined;
+  // asset path
+  const assetPath = isPage ? getPagePath(data.source, true) : data.link;
 
   // Make sure articles without titles are also accessible
   if (!data.title) data.title = data.slug
@@ -131,13 +112,8 @@ module.exports = function (data) {
       const $img = $(this);
       const src = $img.attr('src');
 
-      if (src) {
-        // assets & post_asset_folder
-        $img.attr('src', uriReplacer(src, assetPath));
-
-        // native lazyload
-        // $img.attr('loading', 'lazy')
-      }
+      // assets & post_asset_folder
+      src && $img.attr('src', uriReplacer(src, assetPath));
 
       if (
         this.root // {% img %}
@@ -160,10 +136,6 @@ module.exports = function (data) {
 
     // optimize code block
     $('.highlight')
-      // remove unused language class
-      .each(function () {
-        $(this).attr('class', 'highlight')
-      })
       .children('table').wrap('<div></div>');
 
     // wrap <script> with <div class="is-snippet">
@@ -183,14 +155,6 @@ module.exports = function (data) {
 
       // Note this affects parseToc()
       $el.find('a.headerlink').remove().end().append(`<a href="${link}#${$el.attr('id')}"></a>`);
-    });
-
-    // append `link` for hash link
-    $('a').each(function () {
-      const $anchor = $(this),
-        href = $anchor.attr('href')
-
-      if (href && href.startsWith('#')) $anchor.attr('href', link + href)
     });
 
     return $.html();

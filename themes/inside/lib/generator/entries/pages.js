@@ -1,16 +1,16 @@
 const { flattenDeep } = require('lodash');
-const { pick } = require('../../utils');
+const { getPagePath, pick } = require('../../utils');
 const { page: pageProps } = require('./properties');
 
 module.exports = function ({ locals: { pages }, helpers }) {
   return flattenDeep([
     pages.map(page => [
       helpers.generateJson({
-        path: page.link,
+        path: `page/${page.link}`,
         data: pick(page, pageProps)
       }),
       helpers.generateHtml({
-        path: page.link,
+        path: getPagePath(page.source),
         data: page
       })
     ]),

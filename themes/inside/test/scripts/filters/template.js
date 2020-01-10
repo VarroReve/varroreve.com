@@ -5,11 +5,8 @@ describe('template', function () {
   const hexo = new Hexo();
   const templates = require('../../../lib/filter/templates').bind(hexo);
 
-  Object.assign(hexo.config, {
-    title: 'Blog',
-    language: 'en'
-  })
-  hexo.theme.i18n.set('en', {
+  hexo.config.title = 'Blog';
+  hexo.theme.i18n.set('default', {
     'title.archives': 'Archives',
     'title.categories': 'Categories',
     'title.tags': 'Tags',

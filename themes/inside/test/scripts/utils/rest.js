@@ -3,7 +3,7 @@
 const cheerio = require('cheerio');
 
 describe('utils/rest', function () {
-  const { type, isEmptyObject, pick, md5, base64, Pagination, parseToc, escapeIdentifier, localeId, parseJs, snippet, tag, parseBackground, trimHtml } = require('../../../lib/utils');
+  const { type, isEmptyObject, pick, md5, base64, getPagePath, Pagination, parseToc, escapeIdentifier, localeId, parseJs, snippet, tag } = require('../../../lib/utils');
 
   it('type()', function () {
     expect(type({})).toBe('object');
@@ -37,6 +37,11 @@ describe('utils/rest', function () {
     expect(base64('foo/')).toBe('Zm9vLw');
     expect(base64('foo/a')).toBe('Zm9vL2E');
   })
+
+  it('getPagePath()', function () {
+    expect(getPagePath('root/page/index.md')).toEqual('root/page');
+    expect(getPagePath('root/page/v2.md')).toEqual('root/page/v2');
+  });
 
   it('Pagination', function () {
     const pagination = new Pagination({
@@ -174,18 +179,4 @@ describe('utils/rest', function () {
     expect(tag({ tag: 'link', href: 'xxx.css' })).toBe('<link href="xxx.css" rel="stylesheet">');
   });
 
-  it('parseBackground()', function () {
-    expect(parseBackground('')).toEqual({})
-    expect(parseBackground('#fff xxx.jpg xx')).toEqual({ color: '#fff', image: 'xxx.jpg xx' })
-    expect(parseBackground('xx xxx.jpg #fff')).toEqual({ color: '#fff', image: 'xx xxx.jpg' })
-    expect(parseBackground('#fff')).toEqual({ color: '#fff', image: '' })
-    expect(parseBackground('xxx.jpg')).toEqual({ image: 'xxx.jpg' })
-  })
-
-  it('trimHtml()', function () {
-    expect(trimHtml('post/a/b/')).toBe('post/a/b')
-    expect(trimHtml('post/a/b.html')).toBe('post/a/b')
-    expect(trimHtml('post/a/index.html')).toBe('post/a')
-    expect(trimHtml('post/a/index.html', true)).toBe('post/a/index')
-  })
 });
