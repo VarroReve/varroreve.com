@@ -17,7 +17,7 @@ thumbnail: https://s1.ax1x.com/2020/03/28/GkNpan.jpg
 
 ### 安装 Helm3
 
-若你还未安装 Helm3, 可参考我的 [这篇文章]() 安装 Helm
+若你还未安装 Helm3, 可参考我的 [这篇文章](/post/在-Kubernets-上安装-Helm) 安装 Helm
 
 ### 安装 Cert-Manager 
 
