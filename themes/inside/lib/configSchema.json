@@ -302,8 +302,7 @@
     "seo": {
       "type": "object",
       "properties": {
-        "structured_data": { "type": "boolean" },
-        "ssr": { "type": "boolean" }
+        "structured_data": { "type": "boolean" }
       },
       "additionalProperties": false,
       "default": {}
@@ -387,8 +386,7 @@
                 "properties": {
                   "src": { "type": "string" },
                   "sizes": { "type": "string" },
-                  "type": { "type": "string" },
-                  "purpose": { "type": "string" }
+                  "type": { "type": "string" }
                 },
                 "required": ["src", "sizes", "type"],
                 "additionalProperties": false
@@ -402,30 +400,8 @@
       },
       "additionalProperties": false,
       "default": {}
-    },
-    "markdown": {
-      "type": "object",
-      "properties": {
-        "html": { "type": "boolean" },
-        "xhtmlOut": { "type": "boolean" },
-        "breaks": { "type": "boolean" },
-        "linkify": { "type": "boolean" },
-        "typographer": { "type": "boolean" },
-        "quotes": { "type": "string" },
-        "plugins": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              { "type": "string" },
-              { "type": "object" }
-            ]
-          }
-        }
-      },
-      "additionalProperties": false,
-      "default": {}
     }
   },
-  "required": ["appearance", "profile", "footer", "toc", "page", "post", "archive", "tag", "category", "data_dir", "favicon", "pwa", "seo", "markdown"],
+  "required": ["appearance", "profile", "footer", "toc", "page", "post", "archive", "tag", "category", "data_dir", "favicon", "pwa", "seo"],
   "additionalProperties": false
 }

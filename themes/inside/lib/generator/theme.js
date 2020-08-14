@@ -1,9 +1,9 @@
 const { md5 } = require('../utils');
-const { css } = require('../../source/_theme.js');
+const { $appearance } = require('../../source/_theme.js');
 
 module.exports = function () {
   const theme = this.theme.config;
-  const data = css(theme.appearance);
+  const data = $appearance(theme.appearance);
 
   theme.runtime.themeHash = md5(data);
 

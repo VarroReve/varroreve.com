@@ -7,7 +7,8 @@ module.exports = function (locals) {
     json: { generateFn: ({ path, data }) => ({ path: theme.data_dir + '/' + base64(path) + '.json', data: JSON.stringify(data) }) },
   };
   const pagination = new Pagination(generationMeta);
-  const ret = [].concat.apply([], ['pages', 'posts', 'tags', 'categories', 'archives', 'search']
+
+  return [].concat.apply([], ['pages', 'posts', 'tags', 'categories', 'archives', 'search']
     .map(item => require('./' + item)({
       site: this.config, theme, locals,
       helpers: {
@@ -16,10 +17,4 @@ module.exports = function (locals) {
         pagination
       },
     })));
-
-  // Cache page routes for ssr
-  if (theme.seo.ssr)
-    theme.runtime.generatedRoutes = ret.filter(i => i.layout === 'index').map(i => i.path);
-
-  return ret;
 };
