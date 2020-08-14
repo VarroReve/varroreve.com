@@ -1,4 +1,4 @@
-const { pick, md5 } = require('../utils');
+const { pick, md5, parseBackground } = require('../utils');
 
 module.exports = function (locals) {
   const site = this.config,
@@ -12,15 +12,42 @@ module.exports = function (locals) {
           categories: countOverflow(locals.categories.length),
           tags: countOverflow(locals.tags.length)
         },
-        color: theme.appearance.accent_color,
         hash: theme.runtime.hash,
-        locale: this.theme.i18n.get(site.language)
-      }
+        locale: this.theme.i18n.get(site.language),
+        theme: theme.appearance
+      },
     );
 
+  // extra color from background setting
+  // [sidebar bg, body bg] | [sidebar bg] | body bg
+  const { accent_color, sidebar_background, background } = theme.appearance
+  // [color with sidebar open, color with sidebar close]
+  config.color = [
+    parseBackground(sidebar_background).color || accent_color]
+    .concat(parseBackground(background).color || (theme.pwa && theme.pwa.theme_color) || [])
+
+  // post routes
+  config.routes = {}
+  config.routes.posts = [...locals.posts
+    .reduce((set, post) => {
+      // convert `/path/to/path/` to `:a/:b/:c`
+      const link = post.link.split('/').filter(i => i)
+        .map((_, i) => ':' + String.fromCharCode(97 + i))
+        .join('/')
+      set.add(link)
+      return set
+    }, new Set)].sort()
   // page routes
   if (locals.pages.length)
-    config.routes = locals.pages.map(page => page.link).sort();
+    config.routes.pages = [...locals.pages
+      .reduce((set, post) => {
+        // convert `/path/to/path/` to `path/:a/:b`
+        const link = post.link.split('/').filter(i => i)
+          .map((partial, i) => i === 0 ? partial : ':' + String.fromCharCode(97 + i))
+          .join('/')
+        set.add(link)
+        return set
+      }, new Set)].sort()
 
   if (config.count.categories) config.firstCategory = locals.categories[0].name;
 
@@ -37,6 +64,9 @@ module.exports = function (locals) {
     if (theme.search.fab) config.search.fab = true;
     if (theme.search.page) config.search.page = true;
   }
+
+  // Cache config for ssr
+  if (theme.seo.ssr) theme.runtime.generatedConfig = config;
 
   let data = 'window.__inside__=' + JSON.stringify(config);
 

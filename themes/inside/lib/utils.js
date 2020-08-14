@@ -1,17 +1,18 @@
 const crypto = require('crypto');
+const util = require('hexo-util');
 
-exports.type = function (o) {
-  return Object.prototype.toString.call(o).split(' ')[1].slice(0, -1).toLowerCase()
+exports.type = function (value) {
+  return Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
 }
 
-exports.isObject = function (obj) {
-  return exports.type(obj) === 'object';
+exports.isObject = function (value) {
+  return exports.type(value) === 'object';
 }
 
-exports.isEmptyObject = function (obj) {
-  if (!exports.isObject(obj)) return false;
+exports.isEmptyObject = function (value) {
+  if (!exports.isObject(value)) return false;
 
-  for (const key in obj) return false;
+  for (const key in value) return false;
   return true;
 }
 
@@ -30,7 +31,7 @@ exports.pick = function (obj, keys) {
     keys.forEach(key => {
       o.hasOwnProperty(key) &&
         // delete property with value `false` to save some bytes
-        o[key] !== false &&
+        (o[key] !== false && o[key] !== undefined && o[key] !== null) &&
         (ret[key] = o[key]);
 
     });
@@ -59,21 +60,26 @@ exports.base64 = function (str) {
 }
 
 /**
- * Align page path to support sub page
+ * Remove `/*.html`
  *
- * source/page/index.md => /root/page
- * source/page/v2.md => /root/page/v2
- *
- * @param   {string}  source    page.source
- * @param   {boolean} keepIndex
+ * @param {string} url
+ * @param {boolean} keepIndex keep `index` for `index.html`, used for post_asset_folder
  * @returns {string}
  */
-exports.getPagePath = function (source, keepIndex) {
-  let [paths, md] = source.split(/\/(?=[^\/]*md$)/);
+exports.trimHtml = function (url, keepIndex) {
+  if (!url) return '';
+  url = url.split('/')
 
-  if (md !== 'index.md') paths += '/' + md.substring(0, md.indexOf('.md'));
-  else if (keepIndex) paths += '/index';
-  return paths;
+  const last = url.pop()
+  if (last) {
+    if (last === 'index.html') {
+      if (keepIndex) url.push('index')
+    } else {
+      url.push(last.split('.')[0])
+    }
+  }
+
+  return url.join('/');
 }
 
 exports.Pagination = class {
@@ -152,87 +158,64 @@ exports.Pagination = class {
 /**
  * Parses toc of post
  *
- * @param {string} content
+ * @param {string} html
  * @param {number} depth
  * @returns {Array<{title: string; id: string; index: string; children?: any[]}>}
  */
-exports.parseToc = function (content, depth) {
-  if (!content || !depth) return [];
+exports.parseToc = function (html, depth) {
+  if (!html || !depth) return [];
   if (depth > 4) depth = 4;
   if (depth < 1) depth = 3;
+  const pointer = new function () {
+    const data = {}
+    const parents = []
+    let current = null
+    let level = -1
 
-  const reg = [
-    /^<h1.*id="([^"]*)"[^>]*>(.*)<a /,
-    /^<h2.*id="([^"]*)"[^>]*>(.*)<a /,
-    /^<h3.*id="([^"]*)"[^>]*>(.*)<a /,
-    /^<h4.*id="([^"]*)"[^>]*>(.*)<a /,
-    /^<h5.*id="([^"]*)"[^>]*>(.*)<a /,
-  ].slice(0, depth + 1),
-    headings = content.match(/<(h[12345]).*id="([^"]*)".*>(.*)<a.*<\/\1>/g);
-
-  if (!headings) return [];
-
-  // Default will start from heading1, start from heading2 if failed
-  if (!test(headings).length) reg.shift();
-  // Pops up the last reg to ensure toc matches the specified depth
-  else if (reg.length === depth + 1) reg.pop();
-
-  return test(headings);
-
-  function test(block, pointer = 0, code = '') {
-    if (!reg[pointer]) return [];
-
-    const splited = split(block, reg[pointer]);
-
-    return splited.map((b, i) => {
-      const index = (code ? code + '.' : '') + (i + 1),
-        [, id, title] = b[0].match(reg[pointer]),
-        out = { title, id, index },
-        children = test(b.slice(1), pointer + 1, index);
-
-      // strip anchor href
-      out.title = out.title.replace(/ href=(['"])[^\1]*\1/g, '')
-
-      if (children.length)
-        out.children = children;
-
-      return out;
-    }
-    );
-  }
-
-  /**
-   * Return paired slicer
-   *
-   * @param {string[]} target
-   * @param {RegExp} reg
-   * @returns {string[][]}
-   */
-  function split(target, reg) {
-    const recorder = [],
-      slicer = [],
-      output = [];
-
-    target.forEach((line, index) => {
-      if (line.match(reg)) {
-        recorder.push(index);
+    return {
+      get data() {
+        return data.children
+      },
+      get level() {
+        return level
+      },
+      add(item) {
+        level = item.level
+        current.push({
+          id: item.id,
+          title: item.text,
+          index: [
+            parents.length ? parents[parents.length - 1].index : '',
+            current.length + 1
+          ].filter(i => i).join('.')
+        })
+      },
+      open() {
+        const parent = current ? current[current.length - 1] : data
+        parents.push(parent)
+        current = parent.children = []
+      },
+      close() {
+        parents.pop()
+        current = parents.length
+          ? parents[parents.length - 1].children
+          : parents;
       }
     }
-    );
-
-    recorder.push(target.length);
-
-    for (let i = 0, len = recorder.length; i < len; i++) {
-      if (i + 1 === len) break;
-      slicer.push([recorder[i], recorder[i + 1]]);
-    }
-
-    slicer.forEach(indexs => {
-      output.push(target.slice.apply(target, indexs));
-    })
-
-    return output;
   }
+  const tocObj = util.tocObj(html, { max_depth: depth });
+
+  tocObj.forEach(i => {
+    if (!pointer.level || i.level > pointer.level)
+      pointer.open()
+    else if (i.level < pointer.level) {
+      let n = pointer.level - i.level;
+      while (n--) pointer.close()
+    }
+    pointer.add(i)
+  })
+
+  return pointer.data || []
 }
 
 
@@ -563,7 +546,7 @@ exports.localeId = function (ids, toOld) {
 }
 
 /**
- * Transform with babel, and minify with uglify
+ * Transform with babel, and minify with terser
  *
  * @param {string} code
  * @returns {string}
@@ -579,15 +562,15 @@ exports.parseJs = jsParser();
 exports.minifyHtml = htmlMinifier();
 
 function jsParser() {
-  let babel, uglify;
+  let babel, terser;
   try {
-    uglify = require('uglify-js');
+    terser = require('terser');
     babel = require('babel-core');
     require('babel-preset-env');
   } catch (e) { return i => i || '' }
 
   const esSafe = code => babel.transform(code, { presets: [['env', { 'modules': false }]] });
-  const minify = uglify.minify;
+  const minify = terser.minify;
 
   return function (code) {
     if (!code || typeof code !== 'string') return '';
@@ -632,13 +615,13 @@ function htmlMinifier() {
  * snippet('') => ''
  *
  * snippet('code')
- *   => `<div class="is-snippet"><script>code which parsed by parseJs()</script></div>`
+ *   => `<script>code which parsed by parseJs()</script>`
  *
  * snippet('', '<script id="mycode">code</script>')
- *   => `<div class="is-snippet"><script id="mycode">code</script></div>`
+ *   => `<script id="mycode">code</script>`
  *
  * snippet('code', code => `<script id="mycode">${code}</script>`)
- *   => `<div class="is-snippet"><script id="mycode">code which parsed by parseJs()</script></div>`
+ *   => `<script id="mycode">code which parsed by parseJs()</script>`
  *
  * @param {string} code
  * @param {(string | ((code: string) => string))} template
@@ -657,7 +640,7 @@ exports.snippet = function (code, template = code => `<script>${code}</script>`)
     content = template(exports.parseJs(`(function(){${code}})();`));
   }
 
-  return content ? `<div class="is-snippet">${content}</div>` : '';
+  return content || '';
 }
 
 /**
@@ -671,40 +654,133 @@ exports.published = function (p) {
 }
 
 /**
- * Render tag object to string
+ * Parse css background, only support hex color
+ * #fff url => { color: '#fff', image: url }
  *
- * @param {VTag} vTag
+ * @param {string} value
+ * @return {{color?: string; image?: string}}
+ */
+exports.parseBackground = function (value) {
+  if (!value) return {}
+  const color_hex_regex = /^#(?:[0-9a-fA-F]{3}){1,2}$/
+  const part = value.split(/\s+/)
+  const ret = {}
+
+  // color at start
+  if (color_hex_regex.test(part[0]))
+    return {
+      color: part[0],
+      image: part.slice(1).join(' ')
+    }
+
+  // color at end
+  const lastIndex = part.length - 1
+  if (part[lastIndex] && color_hex_regex.test(part[lastIndex]))
+    return {
+      color: part.pop(),
+      image: part.join(' ')
+    }
+
+  return {
+    image: value
+  }
+}
+
+/**
+ * @param {string} link
+ * @returns {boolean}
+ */
+exports.isExternal = function (link) {
+  return /^(\w+:)?\/\//.test(link);
+}
+
+/**
+ * @param {keyof HTMLElementTagNameMap} tag
+ * @param {{}} attrs
+ * @param {string} text
  * @returns {string}
  */
-exports.tag = function (vTag) {
-  let { tag, code, ...attrs } = vTag;
-
+const selfClosingTags = ['img', 'input', 'link'];
+exports.htmlTag = function (tag, attrs = {}, text) {
   if (tag === 'link') {
     if (!attrs.href) return '';
     if (!attrs.rel) attrs.rel = 'stylesheet';
   }
   else if (tag === 'style') {
-    if (!code) return '';
+    if (!text) return '';
   }
   else if (tag === 'script') {
-    if (attrs.src) code = '';
-    else if (code) {
+    if (attrs.src) text = '';
+    else if (text) {
       if (attrs.type === undefined) {
-        code = exports.parseJs(`(function(){${code}})();`);
-        if (!code) return '';
+        text = exports.parseJs(`(function(){${text}})();`);
+        if (!text) return '';
       }
     }
     else return '';
   }
 
-  let attrString = '';
-  for (let k in attrs) {
+  let temp = [];
+  for (const k in attrs) {
     const v = attrs[k]
-    if (v === true) attrString += ' ' + k;
-    else attrString += ` ${k}="${v}"`;
+    if (v || v === 0) {
+      temp.push(v !== true ? `${k}="${v}"` : k)
+    }
   }
 
-  if (tag === 'link') return `<link${attrString}>`;
+  temp = temp.join(' ');
+  if (temp) temp = ' ' + temp;
 
-  return exports.minifyHtml(`<${tag + attrString}>${code || ''}</${tag}>`);
+  return exports.minifyHtml(selfClosingTags.includes(tag)
+    ? `<${tag + temp}>`
+    : `<${tag + temp}>${text || ''}</${tag}>`);
+}
+
+/**
+ * "A picture | block | key: value"
+ *   => { value: "A picture", options: { block: true, key: value } }
+ * "| block"
+ *   => { options: { block: true } }
+ *
+ * @param {string} value
+ * @returns {{ value: string, options: any }}
+ */
+exports.parsePipe = function (value) {
+  const ret = { options: {} };
+
+  if (!value) return ret;
+
+  const partial = value.split('|').map((i) => i.trim());
+
+  if (partial[0]) ret.value = partial[0];
+
+  partial.slice(1).forEach((p) => {
+    const [k, v] = p.split(':').map((i) => i.trim());
+    if (k) {
+      ret.options[k] = v || true;
+    }
+  });
+
+  return ret;
+}
+
+/**
+ * @param {ArrayLike} list
+ * @param {(arg: any) => Promise<any>} fn
+ * @returns {Promise[]}
+ */
+exports.asyncMap = function(list, fn) {
+  if (!list.length) return Promise.resolve([]);
+
+  const ret = [];
+
+  return run();
+
+  function run() {
+    return fn(list.shift()).then(result => {
+      ret.push(result);
+      if (list.length) return run();
+      return ret;
+    })
+  }
 }

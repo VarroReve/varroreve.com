@@ -3,7 +3,7 @@
 const cheerio = require('cheerio');
 
 describe('utils/rest', function () {
-  const { type, isEmptyObject, pick, md5, base64, getPagePath, Pagination, parseToc, escapeIdentifier, localeId, parseJs, snippet, tag } = require('../../../lib/utils');
+  const { type, isEmptyObject, pick, md5, base64, Pagination, parseToc, escapeIdentifier, localeId, parseJs, snippet, htmlTag, parseBackground, trimHtml, parsePipe } = require('../../../lib/utils');
 
   it('type()', function () {
     expect(type({})).toBe('object');
@@ -37,11 +37,6 @@ describe('utils/rest', function () {
     expect(base64('foo/')).toBe('Zm9vLw');
     expect(base64('foo/a')).toBe('Zm9vL2E');
   })
-
-  it('getPagePath()', function () {
-    expect(getPagePath('root/page/index.md')).toEqual('root/page');
-    expect(getPagePath('root/page/v2.md')).toEqual('root/page/v2');
-  });
 
   it('Pagination', function () {
     const pagination = new Pagination({
@@ -108,12 +103,6 @@ describe('utils/rest', function () {
     ]);
 
     expect(parseToc(cnt2)).toEqual([]);
-
-    expect(parseToc(`
-    <h2 id="Title"><a href="test">Title</a><a href="post/test#Title"></a></h2>
-    `, 4)).toEqual([
-      { title: '<a>Title</a>', id: 'Title', index: '1' }
-    ]);
   });
 
   it('escapeIdentifier()', function () {
@@ -157,26 +146,47 @@ describe('utils/rest', function () {
     expect(snippet('')).toBe('');
 
     expect(snippet('alert(1)'))
-      .toBe('<div class="is-snippet"><script>alert(1);</script></div>');
+      .toBe('<script>alert(1);</script>');
 
-    expect(snippet('', 'whatever here')).toBe('<div class="is-snippet">whatever here</div>');
+    expect(snippet('', 'whatever here')).toBe('whatever here');
 
     expect(snippet('alert(1)', code => `<foo>${code}</foo>`))
-      .toBe('<div class="is-snippet"><foo>alert(1);</foo></div>');
+      .toBe('<foo>alert(1);</foo>');
   });
 
-  it('tag()', function () {
-    expect(tag({ tag: 'script' })).toBe('');
-    expect(tag({ tag: 'link' })).toBe('');
-    expect(tag({ tag: 'style' })).toBe('');
+  it('htmlTag()', function () {
+    expect(htmlTag('script')).toBe('');
+    expect(htmlTag('link')).toBe('');
+    expect(htmlTag('style')).toBe('');
 
-    expect(tag({ tag: 'script', src: 'xxx.js' })).toBe('<script src="xxx.js"></script>');
-    expect(tag({ tag: 'script', code: 'var a=1;alert(1)' })).toBe('<script>alert(1);</script>');
+    expect(htmlTag('script', { src: 'xxx.js' })).toBe('<script src="xxx.js"></script>');
+    expect(htmlTag('script', {}, 'var a=1;alert(1)')).toBe('<script>alert(1);</script>');
     // escape es code transformation when `type` is specified
-    expect(tag({ tag: 'script', type: 'xxx', code: 'alert(1)' })).toBe('<script type="xxx">alert(1)</script>');
+    expect(htmlTag('script', { type: 'xxx' }, 'alert(1)')).toBe('<script type="xxx">alert(1)</script>');
 
-    expect(tag({ tag: 'style', code: 'body{}' })).toBe('<style>body{}</style>');
-    expect(tag({ tag: 'link', href: 'xxx.css' })).toBe('<link href="xxx.css" rel="stylesheet">');
+    expect(htmlTag('style', {}, 'body{}')).toBe('<style>body{}</style>');
+    expect(htmlTag('link', { href: 'xxx.css' })).toBe('<link href="xxx.css" rel="stylesheet">');
   });
 
+  it('parseBackground()', function () {
+    expect(parseBackground('')).toEqual({})
+    expect(parseBackground('#fff xxx.jpg xx')).toEqual({ color: '#fff', image: 'xxx.jpg xx' })
+    expect(parseBackground('xx xxx.jpg #fff')).toEqual({ color: '#fff', image: 'xx xxx.jpg' })
+    expect(parseBackground('#fff')).toEqual({ color: '#fff', image: '' })
+    expect(parseBackground('xxx.jpg')).toEqual({ image: 'xxx.jpg' })
+  })
+
+  it('trimHtml()', function () {
+    expect(trimHtml('post/a/b/')).toBe('post/a/b')
+    expect(trimHtml('post/a/b.html')).toBe('post/a/b')
+    expect(trimHtml('post/a/index.html')).toBe('post/a')
+    expect(trimHtml('post/a/index.html', true)).toBe('post/a/index')
+  })
+
+  it('parsePipe()', function () {
+    expect(parsePipe('a|b|c:1|d:2')).toEqual({ value: 'a', options: { b: true, c: '1', d: '2' } });
+    expect(parsePipe('|b|c:1|d:2')).toEqual({ options: { b: true, c: '1', d: '2' } });
+    expect(parsePipe(' a  | b | c : 1 | d : 2  '))
+      .toEqual({ value: 'a', options: { b: true, c: '1', d: '2' } });
+  })
 });

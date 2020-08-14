@@ -1,7 +1,13 @@
 'use strict';
 
 describe('post', function () {
-  const post = require('../../../lib/filter/post');
+  const filterPath = require.resolve('../../../lib/filter/post');
+  const post = {
+    call(ctx, arg) {
+      delete require.cache[filterPath]
+      return require(filterPath).call(ctx, arg)
+    }
+  }
 
   beforeEach(function () {
     this.ctx = {
@@ -15,7 +21,17 @@ describe('post', function () {
             license: 'a'
           },
           post: { reward: true, toc: true, copyright: true },
-          page: { reward: true, toc: true, copyright: true }
+          page: { reward: true, toc: true, copyright: true },
+          runtime: {
+            dateHelper: o => o,
+            uriReplacer: o => o,
+            hasReward: true,
+            hasComments: true,
+            hasToc: true,
+            copyright: {
+              license: 'a'
+            },
+          }
         }
       },
       config: {
@@ -39,13 +55,15 @@ describe('post', function () {
       layout: 'post',
       excerpt: '',
       content: '',
-      slug: 'test'
+      slug: 'test',
+      path: 'post/test'
     }
     post.call(this.ctx, data);
     expect(data.link).toBe('post/test');
     expect(data.plink).toBe('//example.com/post/test/');
 
     data.layout = 'page';
+    data.path = 'test'
     data.source = 'test/index.md';
     post.call(this.ctx, data);
     expect(data.link).toBe('test');
@@ -100,86 +118,6 @@ describe('post', function () {
     expect(data.copyright).toEqual({ license: 'b' });
   });
 
-  it('heading anchor', function () {
-    const data = {
-      layout: 'post',
-      excerpt: '',
-      slug: 'test',
-      content: '<h2 id="Title"><a href="#Title" class="headerlink" title="Title"></a>Title</h2>'
-    };
-
-    post.call(this.ctx, data);
-    expect(data.content).toBe('<h2 id="Title">Title<a href="post/test#Title"></a></h2>');
-
-    data.content = '<h2 id="Title"><a href="#Title" class="headerlink" title="Title"></a><span>Title</span></h2>';
-    post.call(this.ctx, data);
-    expect(data.content).toBe('<h2 id="Title"><span>Title</span><a href="post/test#Title"></a></h2>');
-  })
-
-  it('add additional tag for table and remove empty thead', function () {
-    const data = {
-      layout: 'post',
-      excerpt: '',
-      content: `<table><thead><tr><th> </th></tr></thead><tbody><tr><td>1</td></tr></tbody></table>`,
-    };
-
-    post.call(this.ctx, data);
-
-    expect(data.content).toBe('<div class="article-bounded"><div class="article-table"><table><tbody><tr><td>1</td></tr></tbody></table></div></div>');
-  });
-
-  it('add additional tag for block img', function () {
-    const data = {
-      layout: 'post',
-      excerpt: '',
-      content: `<p><img></p><p>img<img></p><p><img><img></p><figure><img></figure>`,
-    };
-
-    post.call(this.ctx, data);
-
-    expect(data.content.replace(/\=\"\"/g, '')).toBe(
-      '<p><img class="article-img"></p>' +
-      '<p>img<img></p>' +
-      '<p><img class="article-img"><img class="article-img"></p>' +
-      '<figure><img class="article-img"></figure>');
-  });
-
-  it('add additional tag for script', function () {
-    const data = {
-      layout: 'post',
-      excerpt: '',
-      content: `<script>'foo'</script>`,
-    };
-    post.call(this.ctx, data);
-    expect(data.content).toBe(`<div class="is-snippet"><script></script></div>`);
-
-    data.content = '<script></script>';
-    post.call(this.ctx, data);
-    expect(data.content).toBe('<script></script>');
-  });
-
-  // assets
-  it('modify image url', function () {
-    const data = {
-      layout: 'post',
-      thumbnail: 'img/sample.jpg',
-      excerpt: '',
-      source: 'test/index.md',
-      content: '<img src="img/sample.jpg">',
-    };
-
-    post.call(this.ctx, data);
-    expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg?q=80')
-    expect(data.content).toBe('<img src="https://sample.com/img/sample.jpg?q=80" class="article-img">')
-
-    data.layout = 'page'
-    post.call(this.ctx, data);
-
-    data.thumbnail = 'img/sample.jpg';
-    post.call(this.ctx, data);
-    expect(data.thumbnail).toBe('img/sample.jpg')
-  });
-
   it('escape with data:image', function () {
     const data = {
       layout: 'post',
@@ -188,7 +126,7 @@ describe('post', function () {
       content: '<p>inline<img src="data:image"></p>',
     };
 
-    post.call(this.ctx, { ...data });
+    post.call(this.ctx, data);
 
     expect(data.thumbnail).toBe('data:image')
     expect(data.content).toBe('<p>inline<img src="data:image"></p>')
@@ -218,7 +156,7 @@ describe('post', function () {
 
     post.call(this.ctx, data);
 
-    expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg?q=80')
+    expect(data.thumbnail).toBe('img/sample.jpg')
     expect(data.color).toBe('#000')
   });
 
@@ -228,13 +166,12 @@ describe('post', function () {
       thumbnail: 'img/sample.jpg #000',
       color: '#fff',
       excerpt: '',
-      content: '<img src="img/sample.jpg">',
+      content: '',
     };
 
     post.call(this.ctx, data);
 
-    expect(data.thumbnail).toBe('https://sample.com/img/sample.jpg?q=80')
+    expect(data.thumbnail).toBe('img/sample.jpg')
     expect(data.color).toBe('#fff')
-    expect(data.content).toBe('<img src="https://sample.com/img/sample.jpg?q=80" class="article-img">')
   });
 });
