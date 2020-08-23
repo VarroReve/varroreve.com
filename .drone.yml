@@ -1,0 +1,87 @@
+kind: pipeline
+type: kubernetes
+name: production
+
+steps:
+  - name: build_prod
+    image: plugins/docker
+    commands:
+      - DRONE_COMMIT_SHA_TAG="staging-${DRONE_COMMIT_SHA:0:8}"
+    settings:
+      use_cache: true
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      repo: sakyavarro/blog
+      tags: ${DRONE_COMMIT_SHA_TAG}
+    when:
+      branch:
+        - master
+
+#  - name: notify-dingtalk1
+#    image: lddsb/drone-dingtalk-message
+#    settings:
+#      token:
+#        from_secret: dingtalk_token_insta_bot_drone_1
+#      type: markdown
+#
+#  - name: notify-dingtalk2
+#    image: lddsb/drone-dingtalk-message
+#    settings:
+#      token: 61475d3297ab163609b0154957d706de5d3de658e66226d1bd1bac4e5da86b00
+#      type: markdown
+
+#  - name: notify-wechat
+#    image: yakumioto/serverchan
+#    settings:
+#      key: SCU77779T5aac72e0b07a1a8520e848c48fa1f45b5e1fb859aec0c
+#      text: Your build is complete
+#      desp: Send by ServerChan
+
+trigger:
+  branch:
+    - master
+
+---
+kind: pipeline
+type: kubernetes
+name: staging
+
+steps:
+  - name: build_staging
+    image: plugins/docker
+    settings:
+      use_cache: true
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      repo: sakyavarro/blog
+      tags: "staging-${DRONE_COMMIT_SHA:0:8}"
+
+
+trigger:
+  branch:
+    - staging
+
+---
+kind: pipeline
+type: kubernetes
+name: test
+
+steps:
+  - name: build_test
+    image: plugins/docker
+    settings:
+      use_cache: true
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      repo: sakyavarro/blog
+      tags: test-latest
+
+trigger:
+  branch:
+    - test
