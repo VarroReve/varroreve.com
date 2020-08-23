@@ -8,12 +8,12 @@ subtitle: Varro Reve's blog
 description: Varoo Reve 是一位 Laravel 狂热者和 PHP 开发者.Varro Reve is a Laravel enthousiast and PHP developer.
 keywords: varro blog php laravel phpstorm 博客
 author: Varro Reve
-language: zh-CN
+language: en
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://sakyavarro.cn
+url: https://www.varroreve.com
 root: /
 permalink: post/:title/
 permalink_defaults:

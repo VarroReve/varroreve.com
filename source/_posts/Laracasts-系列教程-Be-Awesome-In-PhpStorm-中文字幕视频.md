@@ -17,7 +17,7 @@ top: 1
 
 
 ## 项目地址
- [laracasts-translation](https://github.com/SakyaVarro/laracasts-translation)
+ [laracasts-translation](https://github.com/varroreve/laracasts-translation)
  
 
 ### Be Awesome In PhpStorm

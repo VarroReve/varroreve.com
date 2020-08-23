@@ -38,8 +38,8 @@ $ git submodule add https://github.com/{你的 github id}/laradock.git
 $ cd laradock
 $ git remote -v
 
-origin  https://github.com/SakyaVarro/laradock.git (fetch)
-origin  https://github.com/SakyaVarro/laradock.git (push)
+origin  https://github.com/varroreve/laradock.git (fetch)
+origin  https://github.com/varroreve/laradock.git (push)
   ```
   
 可以看到 origin 指向了自己 fork 的 laradock。为了可以从原始的 laradock 拉取更新，现在再添加一个仓库，并命名为 laradock-origin：
@@ -55,8 +55,8 @@ $ git remote -v
 
 laradock-origin        https://github.com/laradock/laradock.git (fetch)
 laradock-origin        https://github.com/laradock/laradock.git (push)
-origin  https://github.com/SakyaVarro/laradock.git (fetch)
-origin  https://github.com/SakyaVarro/laradock.git (push)
+origin  https://github.com/varroreve/laradock.git (fetch)
+origin  https://github.com/varroreve/laradock.git (push)
 ```
 
 现在就可以使用 `git push origin master` 将自己的改动推送到自己的 laradock 上，并且用 `git pull laradock-origin master` 拉取来自 laradock/laradock 官方的更新。

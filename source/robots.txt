@@ -7,6 +7,4 @@ Allow: /archives
 
 Disallow: /resume
 
-Sitemap: http://sakyavarro.cn/sitemap.xml
-Sitemap: http://www.sakyavarro.cn/sitemap.xml
-Sitemap: http://hexo.sakyavarro.cn/sitemap.xml
+Sitemap: https://www.varroreve.com/sitemap.xml
