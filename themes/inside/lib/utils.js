@@ -686,6 +686,10 @@ exports.parseBackground = function (value) {
   }
 }
 
+/**
+ * @param {string} link
+ * @returns {boolean}
+ */
 exports.isExternal = function (link) {
   return /^(\w+:)?\/\//.test(link);
 }
@@ -730,4 +734,53 @@ exports.htmlTag = function (tag, attrs = {}, text) {
   return exports.minifyHtml(selfClosingTags.includes(tag)
     ? `<${tag + temp}>`
     : `<${tag + temp}>${text || ''}</${tag}>`);
+}
+
+/**
+ * "A picture | block | key: value"
+ *   => { value: "A picture", options: { block: true, key: value } }
+ * "| block"
+ *   => { options: { block: true } }
+ *
+ * @param {string} value
+ * @returns {{ value: string, options: any }}
+ */
+exports.parsePipe = function (value) {
+  const ret = { options: {} };
+
+  if (!value) return ret;
+
+  const partial = value.split('|').map((i) => i.trim());
+
+  if (partial[0]) ret.value = partial[0];
+
+  partial.slice(1).forEach((p) => {
+    const [k, v] = p.split(':').map((i) => i.trim());
+    if (k) {
+      ret.options[k] = v || true;
+    }
+  });
+
+  return ret;
+}
+
+/**
+ * @param {ArrayLike} list
+ * @param {(arg: any) => Promise<any>} fn
+ * @returns {Promise[]}
+ */
+exports.asyncMap = function(list, fn) {
+  if (!list.length) return Promise.resolve([]);
+
+  const ret = [];
+
+  return run();
+
+  function run() {
+    return fn(list.shift()).then(result => {
+      ret.push(result);
+      if (list.length) return run();
+      return ret;
+    })
+  }
 }

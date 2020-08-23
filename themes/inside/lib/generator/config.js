@@ -13,8 +13,9 @@ module.exports = function (locals) {
           tags: countOverflow(locals.tags.length)
         },
         hash: theme.runtime.hash,
-        locale: this.theme.i18n.get(site.language)
-      }
+        locale: this.theme.i18n.get(site.language),
+        theme: theme.appearance
+      },
     );
 
   // extra color from background setting
@@ -63,6 +64,9 @@ module.exports = function (locals) {
     if (theme.search.fab) config.search.fab = true;
     if (theme.search.page) config.search.page = true;
   }
+
+  // Cache config for ssr
+  if (theme.seo.ssr) theme.runtime.generatedConfig = config;
 
   let data = 'window.__inside__=' + JSON.stringify(config);
 
