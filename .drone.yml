@@ -5,16 +5,13 @@ name: production
 steps:
   - name: build_prod
     image: plugins/docker
-    commands:
-      - DRONE_COMMIT_SHA_TAG="staging-${DRONE_COMMIT_SHA:0:8}"
     settings:
-      use_cache: true
+      repo: sakyavarro/blog
+      auto_tag: true
       username:
         from_secret: dockerhub_username
       password:
         from_secret: dockerhub_password
-      repo: sakyavarro/blog
-      tags: ${DRONE_COMMIT_SHA_TAG}
     when:
       branch:
         - master
@@ -26,11 +23,11 @@ steps:
 #        from_secret: dingtalk_token_insta_bot_drone_1
 #      type: markdown
 #
-#  - name: notify-dingtalk2
-#    image: lddsb/drone-dingtalk-message
-#    settings:
-#      token: 61475d3297ab163609b0154957d706de5d3de658e66226d1bd1bac4e5da86b00
-#      type: markdown
+  - name: notify-dingtalk2
+    image: lddsb/drone-dingtalk-message
+    settings:
+      token: 61475d3297ab163609b0154957d706de5d3de658e66226d1bd1bac4e5da86b00
+      type: markdown
 
 #  - name: notify-wechat
 #    image: yakumioto/serverchan
@@ -52,14 +49,12 @@ steps:
   - name: build_staging
     image: plugins/docker
     settings:
-      use_cache: true
+      repo: sakyavarro/blog
+      tags: "staging-${DRONE_COMMIT_SHA:0:8}"
       username:
         from_secret: dockerhub_username
       password:
         from_secret: dockerhub_password
-      repo: sakyavarro/blog
-      tags: "staging-${DRONE_COMMIT_SHA:0:8}"
-
 
 trigger:
   branch:
@@ -74,13 +69,12 @@ steps:
   - name: build_test
     image: plugins/docker
     settings:
-      use_cache: true
+      repo: sakyavarro/blog
+      tags: test-latest
       username:
         from_secret: dockerhub_username
       password:
         from_secret: dockerhub_password
-      repo: sakyavarro/blog
-      tags: test-latest
 
 trigger:
   branch:
