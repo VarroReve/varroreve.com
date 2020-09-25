@@ -245,7 +245,7 @@ PS: 如果你将配置推送到仓库后, 发现没有新的命名空间出现, 
 
 EKS 天然支持 AWS Application Load Balancer (ALB), 但是 [ALB Ingress Controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) 有个问题, 就是多个 Service 不能复用同一个 alb, 这就导致如果预发/测试环境中有很多项目, 就需要创建很多 alb, 成本较高. ALB Ingress Controller的开发组也正在解决这个问题, 详见 [Ingress Group Feature Testing #914 ](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/issues/914)
 
-基于以上原因, 所以我选择使用 [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/), 好消息是使用 Nginx Ingress Controller 创建 Service 时会自动创建 AWS Classic Load Balancer (CLB), 并且多个 Service 可以服用一个 CLB
+基于以上原因, 所以我选择使用 [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/), 好消息是使用 Nginx Ingress Controller 创建 Service 时会自动创建 AWS Classic Load Balancer (CLB), 并且多个 Service 可以复用一个 CLB, 达到节约成本的目的
 
 ## 部署 Drone CI
 
