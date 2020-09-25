@@ -1,5 +1,5 @@
 ---
-title: '在 Kubernetes 上实现 GitOps 流程 - 环境搭建(二)'
+title: '在 Kubernetes 上实现 GitOps 流程(二) - 环境搭建'
 date: 2020-09-22 10:57:55
 tags:
 - AWS EKS

@@ -1,5 +1,5 @@
 ---
-title: '在 Kubernetes 上实现 GitOps 流程 - 简介(一)'
+title: '在 Kubernetes 上实现 GitOps 流程(一) - 简介'
 date: 2020-09-22 09:19:02
 tags:
 - AWS EKS
