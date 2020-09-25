@@ -86,3 +86,6 @@ gitops      drone   drone.xxxxxx.cn     xxxxxxxxxxxxxxxx.ap-east-1.elb.amazonaws
 
 ![](https://s1.ax1x.com/2020/09/25/0CdnN6.png)
 
+### 结语
+
+至此, EKS + Git + Helm + DroneCI + FluxCD 的 GitOps 环境已搭建完成, 接下来将通过 GitOps 的方式, 将一个 Demo 项目部署到 `staging`、`test` 两个环境中
