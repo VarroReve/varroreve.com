@@ -73,5 +73,16 @@ helm-operator-6fd6b7fbfc-xgcrf   1/1     Running   0          2d22h
 memcached-7dd5ff9dcf-rcpkg       1/1     Running   0          2d22h
 ```
 
-Drone 已成功部署, 查看 Service:
+Drone 已成功部署, 查看 Ingress:
+
+```bash
+$ kubectl get ingress -A
+
+NAMESPACE   NAME    HOSTS               ADDRESS                                                                   PORTS     AGE
+gitops      drone   drone.xxxxxx.cn     xxxxxxxxxxxxxxxx.ap-east-1.elb.amazonaws.com                              80, 443   5h42m
+```
+
+可以看到 Drone 的 Ingress 资源已创建, 并且已通过 AWS 创建了一个经典网络负载均衡器(CLB), 接下来将这个域名 CNAME 到负载均衡器的地址上并访问, 可以看到 Ingress 已正常工作, 并且 Cert Manager 已为该域名申请 Let's Encrypt 证书(有效期为三个月, 在第三个月时 Cert Manager 会自动为证书续期)
+
+![](https://s1.ax1x.com/2020/09/25/0CdnN6.png)
 

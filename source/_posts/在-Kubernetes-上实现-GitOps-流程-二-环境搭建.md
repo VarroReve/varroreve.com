@@ -9,6 +9,14 @@ tags:
 
 ## 工具准备
 
+### 创建 GitOps 的配置仓库
+
+GitOps 的核心组件 FluxCD 需要一个 Git 仓库作为配置仓库, 在 GitHub / GItLab 或其他平台新建一个仓库, 共有或私有均可
+
+但初次使用时我强烈建议使用 GitHub 共有仓库, 使用私有仓库会有许多额外的步骤
+
+本文章使用的配置仓库地址为: https://github.com/VarroReve/EKS-GitOps
+
 ### 准备 AWS 账户
 
 开通一个 AWS 账户, 并具有 EKS 相关权限 (具体需要的权限自行解决, 太多了写不完)
@@ -76,12 +84,6 @@ $ fluxctl version
 
 1.19.0
 ```
-
-### 创建 GitOps 的配置仓库
-
-GitOps 的核心组件 FluxCD 需要一个 Git 仓库作为配置仓库, 在 GitHub / GItLab 或其他平台新建一个仓库, 共有或私有均可
-
-本文章使用的配置仓库地址为: https://github.com/VarroReve/EKS-GitOps
 
 ## 部署集群
 
