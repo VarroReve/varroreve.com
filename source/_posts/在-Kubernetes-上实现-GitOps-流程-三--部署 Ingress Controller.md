@@ -1,5 +1,5 @@
 ---
-title: '在 Kubernetes 上实现 GitOps 流程(三): 部署 Ingress Controller'
+title: '在 Kubernetes 上实现 GitOps 流程(三) - 部署 Ingress Controller'
 date: 2020-09-25 9:44:55
 tags:
 - AWS EKS
@@ -10,6 +10,8 @@ tags:
 ### ALB 与 CLB
 
 Ingress 是对集群中服务的外部访问进行管理的 API 对象, 可以结合云服务商提供的负载均衡器使用
+
+<!-- more -->
 
 EKS 集群天然支持 AWS Application Load Balancer (ALB), 但是 [ALB Ingress Controller](https://github.com/kubernetes-sigs/aws-alb-ingress-controller) 有个问题, 就是多个 Service 不能复用同一个 alb, 这就导致如果预发/测试环境中有很多项目, 就需要创建很多 alb, 成本较高. ALB Ingress Controller 的开发组也正在解决这个问题, 详见 [Ingress Group Feature Testing #914 ](https://github.com/kubernetes-sigs/aws-alb-ingress-controller/issues/914)
 
