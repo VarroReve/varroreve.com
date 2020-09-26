@@ -1,5 +1,5 @@
 ---
-title: 在 Kubernetes 上实现 GitOps 流程(五) - 部署 Drone CI
+title: 在 Kubernetes-EKS 上实现 GitOps 流程(五) - 部署 Drone CI
 date: 2020-09-25 11:08:54
 tags:
 - AWS EKS
@@ -13,7 +13,7 @@ tags:
 
 <!-- more -->
 
-### 部署
+### 部署 Drone
 
 Drone CI 属于 GitOps 的一个环节, 自然也应部署在 `gitops` 命名空间下
 
@@ -78,13 +78,56 @@ Drone 已成功部署, 查看 Ingress:
 ```bash
 $ kubectl get ingress -A
 
-NAMESPACE   NAME    HOSTS               ADDRESS                                                                   PORTS     AGE
-gitops      drone   drone.xxxxxx.cn     xxxxxxxxxxxxxxxx.ap-east-1.elb.amazonaws.com                              80, 443   5h42m
+NAMESPACE   NAME    HOSTS               ADDRESS                              PORTS     AGE
+gitops      drone   drone.xxxxxx.xx     xx.ap-east-1.elb.amazonaws.com       80, 443   5h42m
 ```
 
 可以看到 Drone 的 Ingress 资源已创建, 并且已通过 AWS 创建了一个经典网络负载均衡器(CLB), 接下来将这个域名 CNAME 到负载均衡器的地址上并访问, 可以看到 Ingress 已正常工作, 并且 Cert Manager 已为该域名申请 Let's Encrypt 证书(有效期为三个月, 在第三个月时 Cert Manager 会自动为证书续期)
 
 ![](https://s1.ax1x.com/2020/09/25/0CdnN6.png)
+
+### 部署 Drone Runner
+
+部署了 Drone 本体后, 还需要部署 Drone Runner, 用于执行 CI 任务
+
+新建 hr `releases/git-ops/drone-runner-kube/helmrelease.yaml`:
+
+```yaml
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: drone-runner-kube
+  namespace: gitops
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: drone-runner-kube
+  chart:
+    repository: https://charts.drone.io
+    name: drone-runner-kube
+    version: 0.1.4
+  values:
+    env:
+      DRONE_RPC_SECRET: c27d9e98d7ec90e2 #一个随机秘钥, 可以自定义, 确保与上文中的秘钥一致
+      DRONE_NAMESPACE_DEFAULT: gitops
+    rbac:
+      buildNamespaces:
+        - gitops
+```
+
+之后提交 commit 并推送到远程仓库, 稍微等待下后, 查看 Drone Runner:
+
+```bash
+$ kubectl get pods -n gitops
+
+NAME                                READY   STATUS    RESTARTS   AGE
+drone-6fd8bb7dd8-xhn4k              1/1     Running   0          24h
+drone-runner-kube-9cb6c8ffb-z8spp   1/1     Running   0          17h
+flux-66bbfd8bf5-drjxj               1/1     Running   0          17h
+helm-operator-78cbcc46d8-hrz57      1/1     Running   0          22h
+memcached-7dd5ff9dcf-rcpkg          1/1     Running   0          4d
+```
 
 ### 结语
 

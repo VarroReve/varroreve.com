@@ -1,5 +1,5 @@
 ---
-title: '在 Kubernetes 上实现 GitOps 流程(三) - 部署 Ingress Controller'
+title: '在 Kubernetes-EKS 上实现 GitOps 流程(三) - 部署 Ingress Controller'
 date: 2020-09-25 9:44:55
 tags:
 - AWS EKS

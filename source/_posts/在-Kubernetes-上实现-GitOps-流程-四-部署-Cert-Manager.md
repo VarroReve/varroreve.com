@@ -1,5 +1,5 @@
 ---
-title: 在 Kubernetes 上实现 GitOps 流程(四) - 部署 Cert Manager
+title: 在 Kubernetes-EKS 上实现 GitOps 流程(四) - 部署 Cert Manager
 date: 2020-09-25 10:39:25
 tags:
 - AWS EKS
