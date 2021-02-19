@@ -6,13 +6,14 @@ const urlFor = require('hexo/lib/plugins/helper/url_for');
 const utils = require('./utils');
 const pkg = require('../package.json');
 const configSchema = require('./configSchema.json');
-const resources = require('../source/_resources.json');
+const feManifest = require('../source/_manifest.json');
+const { css } = require('../source/_theme.js');
 
 module.exports = function (hexo) {
   hexo.on('generateBefore', function () {
     const site = hexo.config;
     const theme = Object.assign(hexo.theme.config || {}, site.theme_config);
-    const email = theme.profile && theme.profile.email || site.email || '';
+    const email = (theme.profile && theme.profile.email) || site.email || '';
     const feed = site.feed ? urlFor.call(this, site.feed.path) : '';
     const result = utils.parseConfig(configSchema, theme, {
       $email: email,
@@ -20,11 +21,8 @@ module.exports = function (hexo) {
       $copyright: `&copy; ${new Date().getFullYear()} • <a href="${site.url}">${site.author}</a>`,
       $gravatar: gravatar(email, 160),
       $title: site.title,
-      $description: site.description
+      $description: site.description,
     });
-    const urlFn = result.static_prefix ?
-      a => utils.isExternal(a) ? a : `${result.static_prefix}/${a}` :
-      urlFor.bind(this);
 
     // override default language
     site.language = utils.localeId(site.language);
@@ -42,53 +40,103 @@ module.exports = function (hexo) {
 
     // convert menu to array
     if (result.menu) {
-      result.menu = Object.keys(result.menu).map(k => {
+      result.menu = Object.keys(result.menu).map((k) => {
         const item = [k, result.menu[k]];
         if (utils.isExternal(item[1])) item.push(1);
         return item;
-      })
+      });
     }
 
     // sns
     if (result.sns) {
-      const sns = [];
-      if (result.sns.email !== undefined) result.sns.email = 'mailto:' + (result.sns.email || email);
-      if (result.sns.feed !== undefined) result.sns.feed = result.sns.feed || feed;
-      for (let key in result.sns) {
-        if (result.sns[key]) sns.push([utils.escapeIdentifier(key), result.sns[key]]);
-      }
-      result.sns = sns;
+      const sns = Array.isArray(result.sns)
+        ? result.sns
+        : (() => {
+            const ret = [];
+            // keep key order
+            for (let key in result.sns) {
+              ret.push({
+                icon: utils.escapeIdentifier(key),
+                title: key,
+                url: result.sns[key],
+              });
+            }
+            return ret;
+          })();
+
+      result.sns = sns.reduce((ret, i) => {
+        if (i.icon) {
+          if (i.icon === 'email') {
+            i.url = `mailto:${i.url || email}`;
+          } else if (i.icon === 'feed') {
+            i.url = i.url || feed;
+          }
+          if (i.url) {
+            i.template = `<i class="icon-${i.icon}"></i>`;
+          }
+        }
+
+        if (i.template) {
+          ret.push([i.title || '', i.url || '', i.template]);
+        }
+        return ret;
+      }, []);
     }
 
-    result.plugins = [
-      // plugins comes first to ensure that their libs is ready when executing dynamic code.
-      ...(result.plugins || []),
-      ...resources.styles,
-      ...resources.scripts
-    ];
-
-    if (result.appearance.font && result.appearance.font.url)
-      result.plugins.unshift({ tag: 'link', href: result.appearance.font.url });
+    // theme vars
+    this.extend.injector.register('head_end', `<style is="theme">${css(result.appearance)}</style>`);
 
     {
-      const plugins = { $t: [] };
-      const scripts = [];
-      const styles = [];
+      const entries = [
+        // plugins comes first to ensure that their libs is ready when executing dynamic code.
+        ...result.plugins,
+        ...feManifest.styles,
+        ...feManifest.scripts,
+      ];
+      const pluginManifest = loadManifest([path.join(this.theme_dir, 'lib/plugins')]);
+      const injectorPoints = ['head_begin', 'head_end', 'body_begin', 'body_end'];
+      const positionedPlugins = { $t: [] };
 
-      result.plugins.forEach(plugin => {
-        // Tags
-        if (typeof plugin === 'string' || plugin.tag) {
+      if (result.appearance.font && result.appearance.font.url) {
+        entries.unshift({
+          position: 'head_end',
+          template: `<link href="${result.appearance.font.url}" rel="stylesheet"></link>`,
+        });
+      }
+
+      entries.forEach((item) => {
+        if (typeof item === 'string') {
           // Direct with url
-          if (!plugin.tag) {
-            const tag = plugin.split('?')[0].endsWith('.css') ? 'link' : 'script';
-            plugin = tag === 'link' ? { tag, href: plugin } : { tag, src: plugin }
-          }
-          if (plugin.src) plugin.src = urlFn(plugin.src);
-          if (plugin.href) plugin.href = urlFn(plugin.href);
-          if (plugin.code) plugin.code = loadSnippet(plugin.code);
+          if (!pluginManifest[item]) {
+            const ext = path.extname(item);
+            if (ext === '.css') {
+              item = `<link href="${item}" rel="stylesheet">`;
+            } else if (ext === '.js') {
+              item = `<script src="${item}"></script>`;
+            } else return;
 
-          const { tag, code, ...attrs } = plugin;
-          (tag === 'script' ? scripts : styles).push(utils.htmlTag(tag, attrs, code));
+            this.extend.injector.register(injectorPoints[ext === '.css' ? 1 : 3], item);
+            return;
+          }
+
+          // Built in plugins without options (syntax sugar)
+          item = { [item]: {} };
+        }
+
+        if (item.position && injectorPoints.includes(item.position)) {
+          this.extend.injector.register(item.position, item.template);
+          return;
+        }
+
+        // Built in plugins
+        const pluginName = Object.keys(item)[0];
+        if (pluginManifest[pluginName]) {
+          const plugin = require(pluginManifest[pluginName]);
+          plugin.exec(hexo, utils.parseConfig(plugin.schema, item[pluginName]), {
+            md5: utils.md5,
+            js: hexo.extend.helper.get('js').bind(hexo)
+          });
+          return;
         }
 
         /**
@@ -102,61 +150,94 @@ module.exports = function (hexo) {
          *   comments: [indexes]
          * }
          */
-        else {
-          const index = plugins.$t.length;
+        const index = positionedPlugins.$t.length;
+        positionedPlugins.$t.push(utils.minifyHtml(loadSnippet(item.template)));
 
-          plugins.$t.push(utils.minifyHtml(loadSnippet(plugin.template)));
-
-          (Array.isArray(plugin.position) ? plugin.position : [plugin.position])
-            .forEach(p => (plugins[p] || (plugins[p] = [])).push(index));
-        }
+        (Array.isArray(item.position) ? item.position : [item.position]).forEach((p) =>
+          (positionedPlugins[p] || (positionedPlugins[p] = [])).push(index)
+        );
       });
 
-      result.plugins = plugins;
-      result.styles = styles.join('\n');
-      result.scripts = scripts.join('\n');
+      result.plugins = positionedPlugins;
     }
 
     // override boolean value to html string
-    if (result.footer.powered) result.footer.powered = __('footer.powered', '<a href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a>')
-    if (result.footer.theme) result.footer.theme = __('footer.theme') + ' - <a href="https://github.com/ikeq/hexo-theme-inside" target="_blank" rel="external nofollow noopener">Inside</a>'
+    if (result.footer.powered)
+      result.footer.powered = __(
+        'footer.powered',
+        '<a href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a>'
+      );
+    if (result.footer.theme)
+      result.footer.theme =
+        __('footer.theme') +
+        ' - <a href="https://github.com/ikeq/hexo-theme-inside" target="_blank" rel="external nofollow noopener">Inside</a>';
+
+    // root selector
+    this.extend.injector.register('body_begin', `<${feManifest.root}></${feManifest.root}>`);
 
     result.runtime = {
-      // root selector
-      selector: resources.root,
-      styles: resources.class,
-      hash: utils.md5([
-        ...hexo.locals.getters.pages().sort('-date').toArray(),
-        ...hexo.locals.getters.posts().sort('-date').toArray()
-      ].filter(utils.published).map(i => i.updated.toJSON()).join('')
-        + JSON.stringify(result)
-        + pkg.version
-        , 6),
+      styles: feManifest.class,
+      hash: utils.md5(
+        [...hexo.locals.getters.pages().sort('-date').toArray(), ...hexo.locals.getters.posts().sort('-date').toArray()]
+          .filter(utils.published)
+          .map((i) => i.updated.toJSON())
+          .join('') +
+          JSON.stringify(result) +
+          pkg.version,
+        6
+      ),
 
       // runtime helpers
-      hasComments: !!(result.comments || result.plugins && result.plugins.comments),
+      hasComments: !!(result.comments || (result.plugins && result.plugins.comments)),
       hasReward: !!result.reward,
       hasToc: !!result.toc,
+      renderReadingTime: (() => {
+        const { reading_time } = result.post;
+        if (!reading_time) return false;
+
+        let htmlToText = null;
+        try {
+          htmlToText = require('html-to-text');
+        } catch {
+          return false;
+        }
+
+        const wpm = reading_time.wpm || 150;
+        const compile = reading_time.text
+          ? (o) => utils.sprintf(reading_time.text, o)
+          : (o) => __('post.reading_time', o);
+
+        return (content) => {
+          const words = utils.countWord(
+            htmlToText.fromString(content, {
+              ignoreImage: false,
+              ignoreHref: true,
+              wordwrap: false,
+            })
+          );
+          return compile({ words, minutes: Math.round(words / wpm) || 1 });
+        };
+      })(),
       copyright: result.copyright,
       dateHelper: date.bind({
         page: { lang: utils.localeId(site.language, true) },
-        config: site
+        config: site,
       }),
-      uriReplacer: new function () {
-        let assetsFn = src => src;
+      uriReplacer: (() => {
+        let assetsFn = (src) => src;
         if (result.assets) {
-          const prefix = result.assets.prefix ? result.assets.prefix + '/' : ''
-          const suffix = result.assets.suffix || ''
-          assetsFn = src => prefix + `${src}${suffix}`.replace(/\/{2,}/g, '/')
+          const prefix = result.assets.prefix ? result.assets.prefix + '/' : '';
+          const suffix = result.assets.suffix || '';
+          assetsFn = (src) => prefix + `${src}${suffix}`.replace(/\/{2,}/g, '/');
         }
 
         return (src, assetPath) => {
-          assetPath = assetPath ? assetPath + '/' : ''
+          assetPath = assetPath ? assetPath + '/' : '';
 
           // skip both external and absolute path
           return /^(\/\/?|http|data\:image)/.test(src) ? src : assetsFn(`${assetPath}${src}`);
-        }
-      }
+        };
+      })(),
     };
 
     hexo.theme.config = result;
@@ -170,9 +251,32 @@ module.exports = function (hexo) {
     // simple but enough
     if (/[\n\:]/.test(pathOrCode)) return pathOrCode;
 
-    const templateUrl = path.join(hexo.theme_dir, pathOrCode);
+    const templateUrl = path.join(hexo.base_dir, pathOrCode);
     if (!fs.existsSync(templateUrl)) return pathOrCode;
 
     return fs.readFileSync(templateUrl, 'utf8');
+  }
+};
+
+function loadManifest(includePaths = []) {
+  return Object.assign({}, ...includePaths.map(load));
+
+  function load(dir) {
+    let map = {};
+    try {
+      const manifestPath = path.join(dir, 'manifest.json');
+      if (fs.existsSync(manifestPath)) {
+        map = require(manifestPath) || {};
+      }
+    } catch {
+      return map;
+    }
+
+    return Object.keys(map).reduce((prefixMap, name) => {
+      return {
+        ...prefixMap,
+        [name]: path.join(dir, map[name]),
+      };
+    }, {});
   }
 }

@@ -1,8 +1,6 @@
-const { flatten } = require('lodash');
 const { published } = require('../utils');
 const generators = [
   require('./config'),
-  require('./theme'),
   require('./entries'),
   require('./sitemap'),
   require('./manifest'),
@@ -23,7 +21,7 @@ module.exports = function (hexo) {
       posts: locals.posts.filter(published).filter(filterBuiltInRoutes).sort('-date').toArray()
     };
 
-    return flatten(generators.map(fn => fn.call(this, sLocals)));
+    return generators.map(fn => fn.call(this, sLocals)).flat();
   });
 
   /**
