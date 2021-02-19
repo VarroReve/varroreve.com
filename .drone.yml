@@ -3,59 +3,19 @@ type: kubernetes
 name: production
 
 steps:
-  - name: build_prod
+  - name: build
     image: plugins/docker
     settings:
       repo: sakyavarro/blog
-      tags: "prod-${DRONE_COMMIT_SHA:0:8}"
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       username:
         from_secret: dockerhub_username
       password:
         from_secret: dockerhub_password
-    when:
-      branch:
-        - master
 
 trigger:
   branch:
     - master
-
----
-kind: pipeline
-type: kubernetes
-name: staging
-
-steps:
-  - name: build_staging
-    image: plugins/docker
-    settings:
-      repo: sakyavarro/blog
-      tags: "staging-${DRONE_COMMIT_SHA:0:8}"
-      username:
-        from_secret: dockerhub_username
-      password:
-        from_secret: dockerhub_password
-
-trigger:
-  branch:
     - staging
+    - test*
 
----
-kind: pipeline
-type: kubernetes
-name: test
-
-steps:
-  - name: build_test
-    image: plugins/docker
-    settings:
-      repo: sakyavarro/blog
-      tags: test-latest
-      username:
-        from_secret: dockerhub_username
-      password:
-        from_secret: dockerhub_password
-
-trigger:
-  branch:
-    - test
