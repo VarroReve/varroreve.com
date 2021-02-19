@@ -7,4 +7,4 @@ Allow: /archives
 
 Disallow: /resume
 
-Sitemap: https://www.varroreve.com/sitemap.xml
+Sitemap: https://varroreve.com/sitemap.xml
