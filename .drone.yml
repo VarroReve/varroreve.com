@@ -1,6 +1,6 @@
 kind: pipeline
 type: kubernetes
-name: production
+name: build
 
 steps:
   - name: build
