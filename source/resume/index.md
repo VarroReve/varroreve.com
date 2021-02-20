@@ -54,9 +54,9 @@ date: 2019-07-13 09:17:16
 
 ## 个人项目
 
-### [GooglePlay Apps](https://play.google.com/store/apps/details?id=com.pictext.followersedit)
+### [Google Play Apps](https://play.google.com/store/apps/details?id=com.pictext.followersedit)
 
-我与三位好友在 GooglePlay 上架了数个 [社交工具类应用](https://play.google.com/store/apps/details?id=com.pictext.followersedit)，通过帮助用户在 Instagram、TikTok 上获得更多关注者和赞，而从中获取收益。在短时间内积累了 10W+ 用户。
+我与三位好友在 Google Play 上架了数个 [社交工具类应用](https://play.google.com/store/apps/details?id=com.pictext.followersedit)，通过帮助用户在 Instagram、TikTok 上获得更多关注者和赞，而从中获取收益。在短时间内积累了 10W+ 用户。
 
 我主要负责 PHP API 后端开发、AWS 云服务运维、英文 Email 客服，其次负责 Android（Java）App 开发。
 
@@ -116,40 +116,17 @@ Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学�
 
   最终，firmoo.com 通过此方案上线了英国、西班牙、澳大利亚、法国、德国等分站。
 
-- **常规运维科学上网**
+- **测试环境集群**
 
-  服务器权限、数据库
-
-- **AWS VPC EC2 改造**
-
-  公司的工作负载运行在 AWS 之上，对 VPC、EC2 的规划使用存在许多误区：
-
-  - 所有的工作载荷都运行在公有子网下并暴露了服务器真实 IP 地址
-  
-  - VPC CIDR 设置不合理，不同 AWS Region 下的 VPC 间无法 peering
-  
-  - 只启用了一个 AWS 高可用区、没有做负载均衡、没有做弹性伸缩
-  
-  - 服务之间通过对方公网域名相互访问，没有做服务发现
-
-  - 安全组、ACL 不完善，服务器与数据库有潜在安全风险
-
-  针对上述问题，我基于最佳实践在 AWS 另一个 Region 部署了改造后的 VPC，优化了服务结构。后因 AWS RDS 数据库换区带来的停机问题，以及 Kubernetes 计划的推行，本次改造最终没有上线。
-
-- GitOps
+- **GitOps**
 
   基于 GitOps 思想，通过调整配置或引入新工具，持续优化各团队的开发工作流，包括 CI pipelines 通知、队列任务与 Cron Jobs 通知、AWS SNS、K8S Event 等。为开发工程师提供技术支持，包括开发与系统工具的使用、文档编写、故障排查等，提高开发效率。
 
-- 监控告警
+- **常规运维科学上网**
 
-- 测试环境集群
-
-- ```
-  
-  ```
-
-
-
+  - 服务器权限、数据库
+  - 办公室网络管理
+  - 搭建支撑上百人同时使用的科学上网服务
 
 
 ### <a name="重庆百分网络">重庆百分网络</a>
