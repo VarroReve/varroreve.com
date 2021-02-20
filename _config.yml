@@ -5,8 +5,8 @@
 # Site
 title: varro' blog
 subtitle: Varro Reve's blog
-description: Varoo Reve 是一位 Laravel 狂热者和 PHP 开发者.Varro Reve is a Laravel enthousiast and PHP developer.
-keywords: varro blog php laravel phpstorm 博客
+description: Varro Reve is a Laravel enthousiast and PHP developer. Now forcusing on Kubernetes and gitops.
+keywords: varro blog php laravel phpstorm kubernetes gitops
 author: Varro Reve
 language: en
 timezone:
@@ -77,7 +77,3 @@ theme: inside
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-deploy:
-  - type: git
-    repo: https://gh_token@github.com/SakyaVarro/SakyaVarro.github.io
-    branch: master

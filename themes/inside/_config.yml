@@ -90,16 +90,16 @@ profile:
   email: varroreve@gmail.com
 
   # You can set Avatar URL directly
-  avatar: https://s2.ax1x.com/2019/08/21/mUbK4s.jpg
+  avatar: https://s3.ax1x.com/2021/02/20/y475qK.jpg
 
-  bio: It will getting better
+  bio: 终身学习, 终身编程
 
 # Sidebar navigation links
 menu:
   Home: /
   About: /about
   Links: /links
-  Resume: /
+  Resume: /resume
   Github: https://github.com/varroreve
 
 # Social media URL
