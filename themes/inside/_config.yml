@@ -98,8 +98,6 @@ profile:
 menu:
   Home: /
   About: /about
-  Links: /links
-  Resume: /resume
   Github: https://github.com/varroreve
 
 # Social media URL
