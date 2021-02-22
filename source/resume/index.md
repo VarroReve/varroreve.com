@@ -59,7 +59,7 @@ date: 2019-07-13 09:17:16
 
 ## 个人项目
 
-### <a name="Google Play Apps">Google Play Apps</a>
+### <a name="GooglePlayApps">Google Play Apps</a>
 
 我与三位好友在 Google Play 上架了数个 [社交工具类应用](https://play.google.com/store/apps/details?id=com.pictext.followersedit)，通过帮助用户在 Instagram、TikTok 上获得更多关注者和赞，而从中获取收益。在短时间内积累了 10W+ 用户。
 
@@ -83,7 +83,7 @@ Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学�
 
 ### <a name="自由职业">自由职业</a>
 
-从 Firmoo 离职后，我投入更多时间到 [Google Play Apps](#Google Play Apps) 的开发运营中，同时承接了 Firmoo 的外包项目：部署一个适用于生产环境的 K8S 集群，然后将所有的工作负载迁移到集群上。涉及到的具体事项即是上文中的 [近期工作](#近期工作)，该项目由我独自承接，目前已进入测试验收阶段。
+从 Firmoo 离职后，我投入更多时间到 [Google Play Apps](#GooglePlayApps) 的开发运营中，同时承接了 Firmoo 的外包项目：部署一个适用于生产环境的 K8S 集群，然后将所有的工作负载迁移到集群上。涉及到的具体事项即是上文中的 [近期工作](#近期工作)。该项目由我独自承接，目前已进入测试验收阶段。
 
 ### <a name="Firmoo">Firmoo</a>
 
@@ -93,11 +93,11 @@ Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学�
 
   公司所以使用的 PHP、Laravel、Composer 依赖包版本三年来从未升级，导致无法再使用新特性、新的依赖包，性能也受到制约。
 
-  我升级了 PHP（5.6 -> 7.2）、Laravel 框架（5.2 -> 5.8）及各个依赖包的版本，使其可以更好得适应 PHP 生态圈，获得最新版本的开源项目支持。
+  我升级了所有后端项目使用的 PHP（5.6 -> 7.2）、Laravel 框架（5.2 -> 5.8）及各个依赖包的版本，使其可以更好得适应 PHP 生态圈，获得最新版本的开源项目的支持。
 
 - **为 firmoo.com 做多语种国际化支持**
 
-  [firmoo.com](http://firmoo.com/) 是一个面向世界各国的在线眼镜销售网站，网站原先只支持英语。我设计了 firmoo.com 的国际化方案，对前端、后端、管理后台等服务进行改造，引入翻译工作台以提升业务团队的协同翻译效率，最终使 firmoo.com 获得西班牙语、德语、法语等其他语种支持。
+  [firmoo.com](http://firmoo.com/) 是一个面向世界各国的在线眼镜销售网站，网站原先只支持英语。我设计、实现了 firmoo.com 的国际化方案，对前端、后端、管理后台等服务进行改造，引入翻译工作台以提升业务团队的协同翻译效率，最终使 firmoo.com 获得西班牙语、德语、法语等其他语种支持。
 
 - **为 firmoo.com 建设国际化分站**
 
@@ -115,9 +115,9 @@ Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学�
 
   对于产品在不同国家有不同营销政策的问题，我将原有的产品结构改造为了产品池，将产品的 “商品属性” 与 “产品属性” 分离开来。不同分站的产品有相同的 “产品属性”，但有着不同的 “商品属性” ，以此解决业务方的需求。
 
-  对于代码差异化问题，我以该方式解决：前端项目采用 Git Submodule 实现差异化样式展示；不同分站使用相同的 API 代码、不同的 `env` 环境变量来部署；改造原有的管理后台，使其支持多站点管理。
+  对于代码差异化问题，我采用了以下方式：前端项目采用 Git Submodule 实现差异化样式展示；不同分站使用相同的 API 代码、不同的 `env` 环境变量来部署；改造原有的管理后台，使其支持多站点管理。
 
-  对于服务器部署问题，我最终采用了以下方式：前端服务部署在当地，后端服务部署在美国（靠近 RDS 数据库），通过 AWS Backbone Network 及缓存服务将延迟降低到业务方可接受范围内。
+  对于服务器部署问题，我采用了以下方式：前端服务部署在当地，后端服务部署在美国（靠近 RDS 数据库），通过 AWS Backbone Network 及缓存服务将延迟降低到业务方可接受范围内。
 
   最终，firmoo 通过此方案上线了英国、西班牙、澳大利亚、法国、德国等国际化分站。
 
@@ -127,7 +127,7 @@ Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学�
 
 - **GitOps**
 
-  基于 GitOps 思想，通过调整配置或引入新工具，持续优化各团队的开发工作流，包括 CI pipelines 通知、队列任务与 Cron Jobs 通知、AWS SNS、K8S Event 等。为开发工程师提供技术支持，包括开发与系统工具的使用、文档编写、故障排查等，提高开发效率。
+  基于 GitOps 思想，通过调整配置或引入新工具，持续优化各团队的开发工作流，包括 CI pipelines 通知、队列任务与 Cron Jobs 通知、AWS SNS、K8S Event 等；为开发工程师提供技术支持，包括开发与系统工具的使用、文档编写、故障排查等，提高开发效率。
   
 -  **常规后端、运维事项**
   - 规划功能模块的技术方案、完成后端业务需求
@@ -176,10 +176,11 @@ API 项目负责游戏数据接口，在重构前使用 PHP-FPM 同步阻塞方�
 
 这是我的第一份工作，我在这里学习 PHP、MySQL、MongoDB、Memcache 等技术的基础使用，负责部分 API、后台管理系统功能开发与维护。因为是实习工作，我在此不再赘述。
 
-## <a name="联系方式">联系方式</a>
+## <a name="联系方式">联系我</a>
 
-WeChat：varroreve
+- WeChat：varroreve
+- Mail：varroreve@gmail.com
+- Telephone：188 8398 7586
+- GitHub：https://github.com/VarroReve
 
-Telephone：188 8398 7586
-
-GitHub：https://github.com/VarroReve
+期待与您成为朋友和同事！
