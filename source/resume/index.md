@@ -187,5 +187,6 @@ API 项目负责游戏数据接口，在重构前使用 PHP-FPM 同步阻塞方�
 - Mail：varroreve@gmail.com
 - Telephone：188 8398 7586
 - GitHub：https://github.com/VarroReve
+- 我的博客：https://varroreve.com
 
-期待与您成为朋友和同事！
+期待与您成为同事和朋友！
