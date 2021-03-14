@@ -65,8 +65,6 @@ date: 2019-07-13 09:17:16
 
 我主要负责 PHP 后端开发、AWS 云服务运维、英文 Email 客服，其次负责 Android（Java）前端开发。
 
-目前在为应用接入 Amazon Pay，尝试上架到 Amazon App Store。
-
 ### [Laracasts-Translation](https://github.com/VarroReve/laracasts-translation)
 
 Laracasts 是 Laravel（最流行的 PHP 框架） 官方创办的视频教学网站，涵盖了 Laravel、Vue、Testing 等前沿技术。由于是国外网站、英语解说，所以自己翻译了部分视频，后因时间问题弃更。此项目目前在 [GithHub](https://github.com/VarroReve/laracasts-translation) 上拥有 30 Stars。
